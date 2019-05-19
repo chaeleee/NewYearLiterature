@@ -8,17 +8,20 @@
     <!-- font-family: 'NanumBarunGothic', sans-serif; }-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    <title>Fabric js Example</title>
+    <title>미래 신춘문예</title>
 </head>
 <body>
     <div class="container">
-        <h1>Fabric Js Example</h1>
-        <div class="row py-5">
+        <div class="row">
+            <h1>미래 신춘문예</h1>
+        </div>
+        <div class="row py-3">
+            <h2>공모작 만들기</h2>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text">본문</span>
                 </div>
-                <textarea name="" id="article" class="form-control" cols="30" rows="6">아빠 힘내세요.&#013;우리고 있잖아요</textarea>
+                <textarea name="" id="article" class="form-control" cols="30" rows="3">아빠 힘내세요&#013;우리고 있잖아요</textarea>
                 <br>
             </div>
             <div class="input-group mb-3">
@@ -29,11 +32,14 @@
             </div>
             <button type="button" class="btn btn-primary" id="drawBtn">만들기</button>
         </div>
-        <div class="row py-5">
-            <canvas id="canvas_ex" width=520 height=280></canvas>
+        <div class="row pt-2">
+            <h2>결과물</h2>
         </div>
         <div class="row">
-            <button type="button" class="btn btn-primary" onclick="saveToImg()">이미지로 저장하기</button>
+            <canvas id="canvas_ex" width=520 height=280></canvas>
+        </div>
+        <div class="row py-2">
+            <button type="button" class="btn btn-primary" id="saveBtn">다운로드</button>
         </div>
     </div>
     <script src="js/fabric.min.js"></script>
