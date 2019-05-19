@@ -12,6 +12,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
     document.getElementById('drawBtn').addEventListener('click', updateText);
     document.getElementById('saveBtn').addEventListener('click', saveToImg);
+
+    document.getElementById('basicThemeBtn').addEventListener('click', ()=>{
+        painter.setDefaultTheme();
+    });
+    document.getElementById('blueThemeBtn').addEventListener('click', ()=>{
+        painter.setBlueTheme();
+    });
+    // document.getElementById('futureThemeBtn').addEventListener('click', ()=>{
+    //     painter.setFutureTheme();
+    // });
+
     
 });
 
@@ -85,7 +96,7 @@ var Painter = function(canvas, articleText, authorText){
         });
 
         this.fabricCanvas = new fabric.Canvas(this.canvas.id);
-        this.fabricCanvas.backgroundColor = defaultBgColor;
+        this.fabricCanvas.backgroundColor = 'rgba(255,255,255,1)';
         this.fabricCanvas.add(this.articleItext);
         this.fabricCanvas.add(this.authorItext);
         this.fabricCanvas.renderAll();
@@ -106,7 +117,47 @@ var Painter = function(canvas, articleText, authorText){
     this.getImgUri = function(){
         this.fabricCanvas.isDrawingMode = false;
         return this.fabricCanvas.toDataURL( {format: 'jpeg', quality: 0.8});
+
+        //fabric.Image.fromURL
     }
+
+    this.setDefaultTheme = function(){
+        this.fabricCanvas.setBackgroundImage(null
+            , this.fabricCanvas.renderAll.bind(this.fabricCanvas));
+
+        const bgColor = 'rgba(255,255,255,1)';
+        this.fabricCanvas.backgroundColor = bgColor;
+        this.articleItext.setColor('rgb(0, 0, 0)');
+        this.authorItext.setColor('rgb(0, 0, 0)');
+        this.fabricCanvas.renderAll();
+    }
+
+    this.setBlueTheme = function(){
+        this.fabricCanvas.setBackgroundImage(null
+            , this.fabricCanvas.renderAll.bind(this.fabricCanvas));
+        const bgColor = 'rgb(28,31,135)';
+        this.fabricCanvas.backgroundColor = bgColor;
+        this.articleItext.setColor('rgba(255,255,255, 1)');
+        this.authorItext.setColor('rgba(255,255,255, 0.8)');
+        this.fabricCanvas.renderAll();
+    }
+
+    // this.setFutureTheme = function(){
+    //     fabric.Image.fromURL('./img/future_bg.jpg', handleImage, {crossOrigin: 'anonymous'});
+
+    //     function handleImage(img) {
+    //         this.fabricCanvas.setBackgroundImage(img);
+    //         // do whatever extra needs to be done for the background
+    //     }
+
+    //     // this.fabricCanvas.setBackgroundImage('./img/future_bg.jpg'
+    //     //     , this.fabricCanvas.renderAll.bind(this.fabricCanvas));
+    //     const bgColor = 'rgba(255,255,255,1)';
+    //     this.fabricCanvas.backgroundColor = bgColor;
+    //     this.articleItext.setColor('rgb(0, 0, 0)');
+    //     this.authorItext.setColor('rgb(0, 0, 0)');
+    //     this.fabricCanvas.renderAll();
+    // }
 
 
 
