@@ -6,6 +6,17 @@ var defaultBgColor = 'rgba(255,255,255,1)';
 
 document.addEventListener('DOMContentLoaded', ()=>{
     var canvas = document.getElementById(canvasId);
+
+    // var canvas = document.querySelector("canvas.#canvas_ex");
+
+    // var originalWidth = 1600;  //Example value
+    // var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    // var widthRatio = originalWidth / width;
+    // canvas.width *= widthRatio;
+    // canvas.height *= widthRatio;
+    // canvas.width = width - 100;
+    // debugger;
+
     var articleText = '아빠 힘내세요\n우리고 있잖아요';
     var authorText = '- 사골국물 -';
     painter = new Painter(canvas, articleText, authorText);
@@ -22,7 +33,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // document.getElementById('futureThemeBtn').addEventListener('click', ()=>{
     //     painter.setFutureTheme();
     // });
-
     
 });
 
@@ -55,11 +65,11 @@ var Painter = function(canvas, articleText, authorText){
     this.articleStyle = {
         fontFamily: 'NanumBarunGothic',
         fontWeight: '800',
-        fontSize: '36',
+        fontSize: '30',
         textAlign: 'center',
         fill: 'black',
-        left: 260,
-        top: 140,
+        left: 0,
+        top: 0,
         originX: 'center',
         originY: 'bottom'
     };
@@ -69,11 +79,11 @@ var Painter = function(canvas, articleText, authorText){
     this.authorStyle = {
         fontFamily: 'NanumBarunGothic',
         fontWeight: '500',
-        fontSize: '26',
+        fontSize: '20',
         textAlign: 'center',
         fill: 'rgb(102, 102, 102)',
-        left: 260,
-        top: 180,
+        left: 0,
+        top: 0,
         originX: 'center',
         originY: 'top'
     };
@@ -82,7 +92,11 @@ var Painter = function(canvas, articleText, authorText){
     this.data;
 
     this.init = function(){
+        this.articleStyle.left = this.canvas.width / 2;
+        this.articleStyle.top = this.canvas.height / 2;
         this.articleItext = new fabric.IText(this.articleText, this.articleStyle);
+        this.authorStyle.left = this.canvas.width / 2;
+        this.authorStyle.top = this.canvas.height / 1.5;
         this.authorItext = new fabric.IText(this.authorText, this.authorStyle);
 
         this.articleItext.on('changed', ()=>{

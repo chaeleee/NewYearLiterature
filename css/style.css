@@ -5,9 +5,15 @@ canvas {
 textarea{
     font-size: 26px;
     font-weight: 500;
-    width:520px;
-    height:280px;
+    /* width:520px;
+    height:280px; */
 }
 
+canvas#canvas_ex{
+    /* width: 100%;
+    max-width: 520px;
+    /* height: auto; */
+    /* height: 280px; */
+} */
 
 
