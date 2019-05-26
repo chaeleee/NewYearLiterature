@@ -1,0 +1,39 @@
+# Created by https://www.gitignore.io/api/git,java-web,visualstudiocode
+# Edit at https://www.gitignore.io/?templates=git,java-web,visualstudiocode
+
+### Git ###
+# Created by git for backups. To disable backups in Git:
+# $ git config --global mergetool.keepBackup false
+*.orig
+
+# Created by git when using merge tools for conflicts
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+*_BACKUP_*.txt
+*_BASE_*.txt
+*_LOCAL_*.txt
+*_REMOTE_*.txt
+
+### Java-Web ###
+## ignoring target file
+target/
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+
+# End of https://www.gitignore.io/api/git,java-web,visualstudiocode
+
+
+night-sky.jpg
+night-sky2.jpg
+night-sky3.jpg

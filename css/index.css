@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Pen+Script&display=swap');
+
+body{
+    /* background-color: rgba(28,31,135); */
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+div.wrapper {
+    width: 100%;
+    margin: auto;
+    /* border:  1px solid black; */
+}
+
+div.container{
+    max-width: 1024px;
+}
+
+section{
+    padding-top:3rem;
+    padding-bottom: 3rem;
+}
+
+section div.container div.title h2.main{
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-bottom: 2rem;
+}
+
+/* 섹션1: 타이틀 */
+
+section#section-1{
+    /* border:1px solid orange; */
+    /* background-color: white; */
+    padding-top: 3rem;
+    padding-bottom: 7rem;
+    background: url(../img/night-sky3-1.jpg); 
+    background-size: cover;
+    filter: grayscale(40%);
+    color: white;
+}
+
+section#section-1 div.title{
+    max-width: 425px;
+    margin: auto;
+}
+
+section#section-1 div.title p.sub{
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-left: 1.4rem;
+    margin-bottom: 0;
+}
+
+section#section-1 div.title h1.main{
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 8rem;
+    letter-spacing: 1.5rem;
+    text-align: center;
+    line-height: 10rem;
+    margin-top: -1.6rem;
+}
+
+section#section-1 article{
+    max-width: 425px;
+    padding-top: 2rem;
+    margin: auto;
+}
+
+section#section-1 article p{
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom:0;
+}
+
+/* 섹션2: 예시 및 후보작 */
+
+section#section-2{
+    background-color: #F7F4EF;
+}
+
+section#section-2 div.title h2.main{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+section#section-2 article{
+}
+section#section-2 article div.content{
+    /* border:1px solid black; */
+    padding: 1rem;
+    margin: 1rem;
+    background-color: white;
+    color: black;
+}
+section#section-2 article div.content p.post{
+    text-align: center;
+    font-size: 1.5rem;
+}
+section#section-2 article div.content p.author{
+    text-align: center;
+
+}
+
+/* 섹션3: 공모전 안내 */
+section#section-3{
+    background-color: #F7F4EF;
+}
+section#section-3 div.container article{
+    /* border: 1px solid rgba(0,0,0,0.3); */
+    padding: 1rem;
+    background-color: white;
+    border-radius: 7px;
+}
+section#section-3 article div.part .title{
+    font-size: 1rem;
+}
+
+
+/* 반응형 */
+
+ /* // Extra small devices (portrait phones, less than 576px) */
+ @media (max-width: 575.98px) { 
+    section#section-1 div.title h1.main{
+        font-size: 5rem;
+    }
+    
+    section#section-1 article{
+        padding-top: 1rem;
+    }
+    
+    section#section-1 article p{
+        font-size: 2rem;
+    }
+    
+  }
+ 
+ /* // Small devices (landscape phones, 576px and up) */
+ @media (min-width: 576px) and (max-width: 767.98px) {  }
+ 
+ /* // Medium devices (tablets, 768px and up) */
+ @media (min-width: 768px) and (max-width: 991.98px) {  }
+ 
+ /* // Large devices (desktops, 992px and up) */
+ @media (min-width: 992px) and (max-width: 1199.98px) {  }
+ 
+ /* // Extra large devices (large desktops, 1200px and up) */
+ @media (min-width: 1200px) {  }
