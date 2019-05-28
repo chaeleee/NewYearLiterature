@@ -127,13 +127,13 @@ section#section-4 div.container article{
 section#section-4 div.container article div.writing div#paper{
     border: 1px solid blue;
     background-color: white;
-    max-width: 500px;
-    max-height: 500px;
+    max-width: 400px;
+    max-height: 350px;
     width: 100%;
     height: 100%;
-    padding-bottom: 50%;
     margin: auto;
     position: relative;
+    padding-bottom: 35%;
 }
 
 section#section-4 div.container article div.writing div#paper div#input-grp{
@@ -142,6 +142,31 @@ section#section-4 div.container article div.writing div#paper div#input-grp{
     bottom:0;
     left:0;
     right:0;
+}
+
+div#input-grp div#article-wrapper{
+    text-align: center;
+    padding-top: 10%;
+}
+
+div#input-grp div#article-wrapper textarea#article-input{
+    display: inline-block;
+    width: 90%;
+    text-align: center;
+    font-size: 1.5rem;
+    
+}
+
+div#input-grp div#author-wrapper{
+    text-align: center;
+    padding-top: 11%;
+}
+
+div#input-grp div#author-wrapper input#author-input{
+    display: inline-block;
+    width: 90%;
+    text-align: center;
+    font-size: 1.5rem;
 }
 
 
@@ -165,18 +190,31 @@ section#section-4 div.container article div.writing div#paper div#input-grp{
         font-size: 2rem;
     }
     section#section-4 div.container article div.writing div#paper{
-        padding-bottom: 99%;
+        padding-bottom: 89%;
     }
+
   }
  
  /* // Small devices (landscape phones, 576px and up) */
- @media (min-width: 576px) and (max-width: 767.98px) {  }
+ @media (min-width: 576px) and (max-width: 767.98px) { 
+    section#section-4 div.container article div.writing div#paper{
+        padding-bottom: 55%;
+    }
+  }
  
  /* // Medium devices (tablets, 768px and up) */
- @media (min-width: 768px) and (max-width: 991.98px) {  }
+ @media (min-width: 768px) and (max-width: 991.98px) { 
+    section#section-4 div.container article div.writing div#paper{
+        padding-bottom: 42%;
+    }
+
+  }
+  
  
  /* // Large devices (desktops, 992px and up) */
- @media (min-width: 992px) and (max-width: 1199.98px) {  }
+ @media (min-width: 992px) and (max-width: 1199.98px) { 
+  
+  }
  
  /* // Extra large devices (large desktops, 1200px and up) */
  @media (min-width: 1200px) {  }
