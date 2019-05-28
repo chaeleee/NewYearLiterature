@@ -20,4 +20,31 @@ anime.timeline({loop: true})
     delay: 2000
   });
 
-  
+  //60자
+
+var articleInput = document.querySelector("#article-input");
+
+var textCount = document.querySelector("#article-count");
+articleInput.addEventListener("keyup", ()=>{
+  var str = articleInput.value;
+  var lines = articleInput.value.split("\n");
+  if(str.length > 60 | lines > 4){
+    articleInput.value = str.substring(0, 59);
+  }
+  textCount.innerText = str.length;
+});
+
+var authorInput = document.querySelector("#author-input");
+
+authorInput.addEventListener("keyup", ()=>{
+  var str = authorInput.value;
+  if(str.length > 15){
+    authorInput.value = str.substring(0, 14);
+  }
+});
+
+var text = $("#theTextArea").val();
+var match = /\r|\n/.exec(text);
+if (match) {
+    // Found one, look at `match` for details, in particular `match.index`
+}

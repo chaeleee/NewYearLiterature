@@ -123,20 +123,24 @@
                 <div class="title">
                     <h2 class="main">별님에게</h2>
                 </div>
-                <article>
+                <article id="step-1">
                     <div class="writing">
                         <div id="paper">
                             <div id="input-grp">
                                 <div id="article-wrapper">
-                                    <textarea name="" id="article-input" cols="20" rows="4">이후에는 제출을 할 수 없습니다.</textarea>
+                                    <textarea name="" id="article-input" cols="20" rows="4" placeholder="담신의 이야기를 별에 담아"></textarea>
                                 </div>
+                                <div id="article-count-wrapper">
+                                    <span id="article-count">0</span>/60
+                                </div>  
                                 <div id="author-wrapper">
-                                    <input type="text" id="author-input" value="작가">
+                                    <input type="text" id="author-input" placeholder="이름을 남겨주세요">
                                 </div>
                             </div>
                         </div>
+
                         <div id="send-btn-wrapper">
-                            <button>제출하기</button>
+                            <button type="button" class="btn btn-light" id="send-btn">제출하기</button>
                         </div>
                     </div>
                 </article>
