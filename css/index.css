@@ -169,7 +169,11 @@ div#input-grp div#author-wrapper input#author-input{
     font-size: 1.5rem;
 }
 
-
+div#send-btn-wrapper{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    text-align: center;
+}
 
 
 
