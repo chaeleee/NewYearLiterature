@@ -116,6 +116,38 @@ section#section-3 article div.part .title{
     font-size: 1rem;
 }
 
+/* 섹션4: 공모작 만들기 */
+section#section-4{
+    background-color: #F7F4EF;
+}
+section#section-4 div.container article{
+    border: 1px solid black;
+    
+}
+section#section-4 div.container article div.writing div#paper{
+    border: 1px solid blue;
+    background-color: white;
+    max-width: 500px;
+    max-height: 500px;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 50%;
+    margin: auto;
+    position: relative;
+}
+
+section#section-4 div.container article div.writing div#paper div#input-grp{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+
+
+
+
 
 /* 반응형 */
 
@@ -132,7 +164,9 @@ section#section-3 article div.part .title{
     section#section-1 article p{
         font-size: 2rem;
     }
-    
+    section#section-4 div.container article div.writing div#paper{
+        padding-bottom: 99%;
+    }
   }
  
  /* // Small devices (landscape phones, 576px and up) */
