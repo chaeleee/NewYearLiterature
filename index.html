@@ -138,14 +138,38 @@
                                 </div>
                             </div>
                         </div>
-
                         <div id="send-btn-wrapper">
-                            <button type="button" class="btn btn-light" id="send-btn">제출하기</button>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-light" id="send-btn" data-toggle="modal" data-target="#submission">작성완료</button>
                         </div>
                     </div>
                 </article>
             </div>
         </section>
+        <!-- 개인정보 입력 모달 -->
+        <div class="modal fade" id="submission" tabindex="-1" role="dialog" aria-labelledby="submissionTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="submissionTitle">공모전 응모하기</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            - 필요 정보: 이메일, 별칭, 비밀번호 <br>
+                            - 이용 목적: 수상 이메일 안내, 다른 출품작들 추천 시 이용자 식별 <br>
+                            - 보관 기간: 이벤트 기간 이후 한달. (수상작 전시를 위해) <br>
+                            - 보관 방법: 비밀번호는 암호화하여 보관 <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 응모작 전시 -->
         <section id="section-5" hidden></section>
         <!-- Footer -->
