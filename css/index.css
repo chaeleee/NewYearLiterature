@@ -33,7 +33,7 @@ section#section-1{
     /* background-color: white; */
     padding-top: 3rem;
     padding-bottom: 7rem;
-    background: url(../img/night-sky3-1.jpg); 
+    background: url(../img/night-sky.jpg); 
     background-size: cover;
     filter: grayscale(40%);
     color: white;
@@ -147,7 +147,7 @@ section#section-4 div.container article div.writing div#paper div#input-grp{
     left:0;
     right:0;
     background-color: white;
-    background: url("../img/paper-2-op.jpg") no-repeat center center;
+    background: url("../img/paper.jpg") no-repeat center center;
     background-size: cover;
     border: 1px solid rgba(0,0,0,0.2);
     /* font-family: 'Nanum Pen Script', cursive; */
