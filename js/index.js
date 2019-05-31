@@ -48,3 +48,11 @@ var match = /\r|\n/.exec(text);
 if (match) {
     // Found one, look at `match` for details, in particular `match.index`
 }
+
+var submitBtn = document.querySelector('#submit-btn');
+submitBtn.addEventListener('click',function(){
+  let isSuccess = true;
+  if(isSuccess){
+    $('#submission').modal('toggle');
+  }
+});

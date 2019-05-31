@@ -207,6 +207,22 @@ button#send-btn{
     border: 1px solid black;
     font-size: 1.2rem;
 }
+section#section-5{
+}
+section#section-5 div.title{
+    text-align: center;
+    font-size: 1rem;
+}
+div#canvas-wrapper{
+    text-align: center;
+}
+canvas#workCanvas{
+    border:1px solid black;
+}
+div#download-btn-wrapper{
+    text-align: center;
+}
+
 
 
 

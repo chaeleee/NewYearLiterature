@@ -146,9 +146,24 @@
                 </article>
             </div>
         </section>
+        <section id="section-5">
+            <div class="container">
+                    <div class="title">
+                        <p>참여해주셔서 감사합니다!</p>
+                        <p>출품작을 주변에 널리 알려보세요</p>
+                    </div>
+                    <div id="canvas-wrapper">
+                        <canvas id="workCanvas"></canvas>
+                    </div>
+                    
+                    <div id="download-btn-wrapper">
+                        <button type="button" class="btn btn-light">다운로드</button>
+                    </div>
+                </div>
+        </section>
         <!-- 개인정보 입력 모달 -->
         <div class="modal fade" id="submission" tabindex="-1" role="dialog" aria-labelledby="submissionTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="submissionTitle">공모전 응모하기</h5>
@@ -157,23 +172,40 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                            - 필요 정보: 이메일, 별칭, 비밀번호 <br>
-                            - 이용 목적: 수상 이메일 안내, 다른 출품작들 추천 시 이용자 식별 <br>
-                            - 보관 기간: 이벤트 기간 이후 한달. (수상작 전시를 위해) <br>
-                            - 보관 방법: 비밀번호는 암호화하여 보관 <br>
+                            <form id="submit-form">
+                                <div class="form-group">
+                                  <label for="exampleInputEmail1">이메일</label>
+                                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                  <label for="exampleInputPassword1">비밀번호</label>
+                                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                </div>
+                                <p>
+                                    <strong>개인정보이용 동의</strong><br>
+                                    - 필요 정보: 이메일, 별칭, 비밀번호 <br>    
+                                    - 이용 목적: 수상 소식 이메일 안내, 중복 추천(좋아요) 방지 <br>
+                                    - 보관 기간: 수상작 전시를 위해 접수 마감 이후 한달. <br>
+                                </p>
+                                <div class="form-group form-check">
+                                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                  <label class="form-check-label" for="exampleCheck1">동의합니다</label>
+                                </div>
+                                <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                            </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        <button id="submit-btn" type="button" class="btn btn-primary">응모</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- 응모작 전시 -->
-        <section id="section-5" hidden></section>
-        <!-- Footer -->
         <section id="section-6" hidden></section>
+        <!-- Footer -->
+        <section id="section-7" hidden></section>
     </div>
 
     <!-- Bootstrap 4 -->
