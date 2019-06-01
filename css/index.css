@@ -117,18 +117,18 @@ section#section-3 article div.part .title{
 }
 
 /* 섹션4: 공모작 만들기 */
-section#section-4{
+#section-4{
     background-color: #F7F4EF;
 }
-section#section-4 div.container article{
+#section-4 .container article{
     /* border: 1px solid black; */
     
 }
-section#section-4 div.container article div.writing{
+#section-4 .container article .writing{
 
     
 }
-section#section-4 div.container article div.writing div#paper{
+#section-4 .container article .writing #paper{
     /* border: 1px solid blue; */
     /* background-color: white; */
     max-width: 400px;
@@ -140,7 +140,7 @@ section#section-4 div.container article div.writing div#paper{
     padding-bottom: 33%;
 }
 
-section#section-4 div.container article div.writing div#paper div#input-grp{
+#section-4 .container article .writing #paper #input-grp{
     position: absolute;
     top:0;
     bottom:0;
@@ -154,12 +154,12 @@ section#section-4 div.container article div.writing div#paper div#input-grp{
 
 }
 
-div#input-grp div#article-wrapper{
+#input-grp #article-wrapper{
     text-align: center;
     padding-top: 15%;
 }
 
-div#input-grp div#article-wrapper textarea#article-input{
+#input-grp #article-wrapper textarea#article-input{
     display: inline-block;
     width: 90%;
     text-align: center;
@@ -171,18 +171,18 @@ div#input-grp div#article-wrapper textarea#article-input{
     outline: none;
 }
 
-div#article-count-wrapper{
+#article-count-wrapper{
     text-align: right;
     padding-right: 1rem;
     color: rgba(0,0,0,0.5);
 }
 
-div#input-grp div#author-wrapper{
+#input-grp #author-wrapper{
     text-align: center;
     padding-top: 5%;
 }
 
-div#input-grp div#author-wrapper input#author-input{
+#input-grp #author-wrapper #author-input{
     display: inline-block;
     width: 90%;
     text-align: center;
@@ -194,12 +194,12 @@ div#input-grp div#author-wrapper input#author-input{
 
 }
 
-div#send-btn-wrapper{
+#send-btn-wrapper{
     padding-top: 0.5rem;
     text-align: center;
 }
 
-button#send-btn{
+#send-btn{
     max-width: 400px;
     width: 100%;
     height: 3rem;
@@ -207,7 +207,11 @@ button#send-btn{
     border: 1px solid black;
     font-size: 1.2rem;
 }
+
+/* Section 5 결과 */
+
 section#section-5{
+    background-color: #F7F4EF;
 }
 section#section-5 div.title{
     text-align: center;
@@ -221,6 +225,63 @@ canvas#workCanvas{
 }
 div#download-btn-wrapper{
     text-align: center;
+}
+
+/* 섹션 6 응모작 전시 */
+section#section-6{
+    background-color: #F7F4EF;
+}
+
+section#section-6 div.title h2.main{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#section-6 .container #sortBy{
+    text-align: right;
+    font-weight: bold;
+}
+
+#section-6 article .content{
+    /* border: 1px solid black; */
+    padding: 1rem;
+    padding-bottom: 1.5rem;
+    margin: 1rem;
+    background-color: white;
+    color: black;
+    position: relative;
+    margin: 1rem 0;
+}
+
+#section-6 article div.content p.post{
+    text-align: center;
+    font-size: 1.5rem;
+}
+#section-6 article div.content p.author{
+    text-align: center;
+}
+#section-6 article .content .like-box{
+    position: absolute;
+    right: 1rem;
+    bottom: 0.5rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+
+/* Footer */
+#section-7{
+    /* background-color: #F7F4EF; */
+    background-color:  rgba(0,0,0,0.85);
+    color: white;
+}
+#section-7 .container article{
+    color: white;
+    padding: 1rem;
+    border-radius: 7px;
+}
+#section-7 article div.part .title{
+    font-size: 1rem;
 }
 
 
