@@ -23,6 +23,7 @@ anime.timeline({loop: true})
   //60자
 
 var articleInput = document.querySelector("#article-input");
+var authorInput = document.querySelector("#author-input");
 
 var textCount = document.querySelector("#article-count");
 articleInput.addEventListener("keyup", ()=>{
@@ -34,7 +35,6 @@ articleInput.addEventListener("keyup", ()=>{
   textCount.innerText = str.length;
 });
 
-var authorInput = document.querySelector("#author-input");
 
 authorInput.addEventListener("keyup", ()=>{
   var str = authorInput.value;
@@ -54,5 +54,154 @@ submitBtn.addEventListener('click',function(){
   let isSuccess = true;
   if(isSuccess){
     $('#submission').modal('toggle');
+    draw();
   }
 });
+
+// 입력값 실시간 업데이트
+articleInput.addEventListener('keyup',()=>{
+  draw();
+});
+authorInput.addEventListener('keyup',()=>{
+  draw();
+});
+
+
+// 이미지 생성
+
+var article = "";
+var author = "";
+var workCanvas = document.querySelector('#workCanvas');
+var painter = new Painter(workCanvas, "당신의 이야기를 \n별에 담아", "작가명");
+var downloadBtn = document.querySelector('#download-btn');
+downloadBtn.addEventListener("click",()=>{
+  saveToImg(painter);
+});
+
+function saveToImg(painter){
+  let uri = painter.getImgUri();
+  downloadURI(uri, '제출작.jpg');
+}
+
+function downloadURI(uri, name) {
+  var link = document.createElement("a");
+  link.download = name;
+  link.href = uri;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  delete link;
+}
+
+// 캔버스에 그리기
+function draw(){
+  let article = document.querySelector('#article-input').value;
+  let author = document.querySelector('#author-input').value;
+  painter.updateText(article, author);
+}
+
+// 이미지데이터화
+function exportImg(){}
+
+function Painter(canvas, articleText, authorText){
+  this.canvas = canvas;
+  
+  this.articleText = articleText;
+  this.articleItext;
+  this.articleStyle = {
+      fontFamily: 'NanumGothic',
+      // fontWeight: '500',
+      fontSize: '26',
+      textAlign: 'center',
+      fill: 'black',
+      left: 0,
+      top: 0,
+      originX: 'center',
+      originY: 'bottom'
+  };
+
+  this.authorText = authorText; 
+  this.authorItext;
+  this.authorStyle = {
+      fontFamily: 'NanumGothic',
+      // fontWeight: '500',
+      fontSize: '20',
+      textAlign: 'center',
+      fill: 'rgb(102, 102, 102)',
+      left: 0,
+      top: 0,
+      originX: 'center',
+      originY: 'bottom'
+      // originY: 'top'
+  };
+  
+  this.fabricCanvas;
+  this.data;
+
+  this.init = function(){
+      this.articleStyle.left = this.canvas.width / 2;
+      this.articleStyle.top = this.canvas.height / 1.8 ;
+      this.articleItext = new fabric.IText(this.articleText, this.articleStyle);
+      this.authorStyle.left = this.canvas.width / 2;
+      this.authorStyle.top = this.canvas.height / 1.2;
+      this.authorItext = new fabric.IText(this.authorText, this.authorStyle);
+
+      this.articleItext.on('changed', ()=>{
+          document.getElementById('article-input').value = this.articleItext.text;
+      });
+      this.authorItext.on('changed', ()=>{
+          let text = this.authorItext.text;
+          text = text.replace('- ', '');
+          text = text.replace(' -', '');
+          document.getElementById('author-input').value = text;
+      });
+
+      this.fabricCanvas = new fabric.Canvas(this.canvas.id);
+      this.fabricCanvas.backgroundColor = 'rgba(255,255,255,1)';
+      this.fabricCanvas.add(this.articleItext);
+      this.fabricCanvas.add(this.authorItext);
+      this.fabricCanvas.renderAll();
+  }
+  this.init();
+
+  this.updateText = function(articleText, authorText){
+      if(articleText) {
+      this.articleItext.text = articleText;
+      }
+      if(authorText){
+          authorText = '- ' + authorText + ' -';
+          this.authorItext.text = authorText;
+      }
+      this.fabricCanvas.renderAll();
+  }
+
+  this.getImgUri = function(){
+      this.fabricCanvas.isDrawingMode = false;
+      return this.fabricCanvas.toDataURL( {format: 'jpeg', quality: 0.8});
+
+      //fabric.Image.fromURL
+  }
+
+  this.setDefaultTheme = function(){
+      this.fabricCanvas.setBackgroundImage(null
+          , this.fabricCanvas.renderAll.bind(this.fabricCanvas));
+
+      const bgColor = 'rgba(255,255,255,1)';
+      this.fabricCanvas.backgroundColor = bgColor;
+      this.articleItext.setColor('rgb(0, 0, 0)');
+      this.authorItext.setColor('rgb(0, 0, 0)');
+      this.fabricCanvas.renderAll();
+  }
+
+  this.setBlueTheme = function(){
+      this.fabricCanvas.setBackgroundImage(null
+          , this.fabricCanvas.renderAll.bind(this.fabricCanvas));
+      const bgColor = 'rgb(28,31,135)';
+      this.fabricCanvas.backgroundColor = bgColor;
+      this.articleItext.setColor('rgba(255,255,255, 1)');
+      this.authorItext.setColor('rgba(255,255,255, 0.8)');
+      this.fabricCanvas.renderAll();
+  }
+
+
+}

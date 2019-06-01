@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <!-- Main css -->
     <link rel="stylesheet" href="css/index.css">
     <title>미래당 신춘문예</title>
@@ -123,45 +124,55 @@
                 <div class="title">
                     <h2 class="main">별님에게</h2>
                 </div>
-                <article id="step-1">
-                    <div class="writing">
-                        <div id="paper">
-                            <div id="input-grp">
-                                <div id="article-wrapper">
-                                    <textarea name="" id="article-input" cols="20" rows="4" placeholder="담신의 이야기를 별에 담아"></textarea>
-                                </div>
-                                <div id="article-count-wrapper">
-                                    <span id="article-count">0</span>/60
-                                </div>  
-                                <div id="author-wrapper">
-                                    <input type="text" id="author-input" placeholder="이름을 남겨주세요">
+                <div class="row">
+                    <article id="step-1" class="col-md">
+                        <div class="writing">
+                            <div id="paper">
+                                <div id="input-grp">
+                                    <div id="article-wrapper">
+                                        <textarea name="" id="article-input" cols="20" rows="4" placeholder="담신의 이야기를 별에 담아"></textarea>
+                                    </div>
+                                    <div id="article-count-wrapper">
+                                        <span id="article-count">0</span>/60
+                                    </div>  
+                                    <div id="author-wrapper">
+                                        <input type="text" id="author-input" placeholder="이름을 남겨주세요">
+                                    </div>
                                 </div>
                             </div>
+                            <div id="send-btn-wrapper">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-light" id="send-btn" data-toggle="modal" data-target="#submission">작성완료</button>
+                            </div>
                         </div>
-                        <div id="send-btn-wrapper">
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-light" id="send-btn" data-toggle="modal" data-target="#submission">작성완료</button>
+                    </article>
+                    <article id="step-2" class="col-md">
+                        <div id="canvas-wrapper">
+                            <canvas id="workCanvas" width="300" height="300"></canvas>
                         </div>
-                    </div>
-                </article>
+                        <div id="download-btn-wrapper">
+                            <button id="download-btn"type="button" class="btn btn-light">다운로드</button>
+                        </div>
+                    </article>
+                </div>
             </div>
         </section>
         <!-- section 5: 결과 -->
-        <section id="section-5">
+        <!-- <section id="section-5">
             <div class="container">
                     <div class="title">
                         <p>참여해주셔서 감사합니다!</p>
                         <p>출품작을 주변에 널리 알려보세요</p>
                     </div>
                     <div id="canvas-wrapper">
-                        <canvas id="workCanvas"></canvas>
+                        <canvas id="workCanvas" width="300" height="300"></canvas>
                     </div>
                     
                     <div id="download-btn-wrapper">
-                        <button type="button" class="btn btn-light">다운로드</button>
+                        <button id="download-btn"type="button" class="btn btn-light">다운로드</button>
                     </div>
                 </div>
-        </section>
+        </section> -->
         <!-- 개인정보 입력 모달 -->
         <div class="modal fade" id="submission" tabindex="-1" role="dialog" aria-labelledby="submissionTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -380,6 +391,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!-- Typed Js-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <!-- fabric -->
+    <script src="js/fabric.min.js"></script>
     <!-- custom js-->
     <script src="js/index.js"></script>
 </body>
