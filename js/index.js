@@ -80,7 +80,7 @@ downloadBtn.addEventListener("click",()=>{
 
 function saveToImg(painter){
   let uri = painter.getImgUri();
-  downloadURI(uri, '제출작.jpg');
+  downloadURI(uri, '제출작.png');
 }
 
 function downloadURI(uri, name) {
@@ -177,7 +177,8 @@ function Painter(canvas, articleText, authorText){
 
   this.getImgUri = function(){
       this.fabricCanvas.isDrawingMode = false;
-      return this.fabricCanvas.toDataURL( {format: 'jpeg', quality: 0.8});
+      return this.fabricCanvas.toDataURL( {format: 'png', multiplier:2});
+      // return this.fabricCanvas.toDataURL( {format: 'png', quality: 1.0, multiplier:2});
 
       //fabric.Image.fromURL
   }
