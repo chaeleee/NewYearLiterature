@@ -207,6 +207,16 @@ section#section-3 article div.part .title{
     font-size: 1.2rem;
 }
 
+#down-toggle-btn{
+    max-width: 300px;
+    width: 100%;
+    height: 3rem;
+    margin: auto;
+    border: 1px solid black;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
 #download-btn{
     max-width: 300px;
     width: 100%;

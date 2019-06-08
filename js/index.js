@@ -86,6 +86,9 @@ var app = new Vue({
       if(isSuccess){
         $('#submission').modal('toggle');
       }
+    },
+    showCanvas: function(){
+      $("#step-2").slideToggle("slow");
     }
 
   }
