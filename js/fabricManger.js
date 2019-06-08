@@ -1,7 +1,11 @@
 'use strict';
 class FabricManager{
   constructor(canvas, articleText, authorText){
-    this.canvas = canvas;
+    this.canvas = {
+        id: canvas.id,
+        width: canvas.width,
+        height: canvas.height
+    };
     this.article = {
       text: articleText,
       itext: null,

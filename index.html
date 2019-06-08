@@ -156,7 +156,7 @@
                     </article>
                     <article id="step-2" class="col-md">
                         <div id="canvas-wrapper">
-                            <canvas id="workCanvas" width="300" height="300"></canvas>
+                            <canvas id="workCanvas" v-bind:width="canvas.width" v-bind:height="canvas.height"></canvas>
                         </div>
                         <div id="download-btn-wrapper">
                             <button id="download-btn"type="button" class="btn btn-light" v-on:click="saveToImg">다운로드</button>

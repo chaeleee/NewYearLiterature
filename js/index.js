@@ -11,6 +11,10 @@ var app = new Vue({
       articleText: '당신의 이야기를 \n별에 담아',
       authorText: '이름을 남겨주세요'
     },
+    canvas:{
+      width: 300,
+      height: 300
+    },
     fabricManager: null
   },
   computed: {
@@ -46,8 +50,12 @@ var app = new Vue({
       this.downloadURI(uri, '제출작.png');
     },
     setFabricCanvas: function(){
-      let workCanvas = document.querySelector('#workCanvas');
-      this.fabricManager = new FabricManager(workCanvas, "당신의 이야기를 \n별에 담아", "작가명");
+      let canvasInfo = {
+        id: 'workCanvas',
+        width: this.canvas.width,
+        height: this.canvas.height
+      }
+      this.fabricManager = new FabricManager(canvasInfo, "당신의 이야기를 \n별에 담아", "작가명");
     },
     downloadURI: function(uri, filename){
       let link = document.createElement("a");
