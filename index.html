@@ -14,7 +14,7 @@
     <title>미래당 신춘문예</title>
 </head>
 <body>
-    <div class="wrapper">
+    <div id="app" class="wrapper">
         <!-- 메인 타이틀 -->
         <section id="section-1">
             <div class="container">
@@ -130,13 +130,21 @@
                             <div id="paper">
                                 <div id="input-grp">
                                     <div id="article-wrapper">
-                                        <textarea name="" id="article-input" cols="20" rows="4" placeholder="담신의 이야기를 별에 담아"></textarea>
+                                        <textarea name="" 
+                                            id="article-input" 
+                                            cols="20" rows="4" 
+                                            placeholder="본문" 
+                                            v-model="input.articleText"
+                                            v-on:keyup="limitArticleInput"
+                                            >{{input.articleText}}</textarea>
                                     </div>
                                     <div id="article-count-wrapper">
-                                        <span id="article-count">0</span>/60
+                                        <span id="article-count">{{ articleLength }}</span>/60
                                     </div>  
                                     <div id="author-wrapper">
-                                        <input type="text" id="author-input" placeholder="이름을 남겨주세요">
+                                        <input type="text" id="author-input" placeholder="이름을 남겨주세요" 
+                                            v-model="input.authorText"
+                                            v-on:keyup="limitAuthorInput">
                                     </div>
                                 </div>
                             </div>
@@ -151,28 +159,12 @@
                             <canvas id="workCanvas" width="300" height="300"></canvas>
                         </div>
                         <div id="download-btn-wrapper">
-                            <button id="download-btn"type="button" class="btn btn-light">다운로드</button>
+                            <button id="download-btn"type="button" class="btn btn-light" v-on:click="saveToImg">다운로드</button>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
-        <!-- section 5: 결과 -->
-        <!-- <section id="section-5">
-            <div class="container">
-                    <div class="title">
-                        <p>참여해주셔서 감사합니다!</p>
-                        <p>출품작을 주변에 널리 알려보세요</p>
-                    </div>
-                    <div id="canvas-wrapper">
-                        <canvas id="workCanvas" width="300" height="300"></canvas>
-                    </div>
-                    
-                    <div id="download-btn-wrapper">
-                        <button id="download-btn"type="button" class="btn btn-light">다운로드</button>
-                    </div>
-                </div>
-        </section> -->
         <!-- 개인정보 입력 모달 -->
         <div class="modal fade" id="submission" tabindex="-1" role="dialog" aria-labelledby="submissionTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -208,7 +200,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                        <button id="submit-btn" type="button" class="btn btn-primary">응모</button>
+                        <button id="submit-btn" v-on:click="toggleModal" type="button" class="btn btn-primary">응모</button>
                     </div>
                 </div>
             </div>
@@ -384,7 +376,8 @@
             </div>
         </section>
     </div>
-
+    <!-- vue js-->
+    <script src="js/lib/vue.js"></script>
     <!-- Bootstrap 4 -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -392,7 +385,8 @@
     <!-- Typed Js-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
     <!-- fabric -->
-    <script src="js/fabric.min.js"></script>
+    <script src="js/lib/fabric.min.js"></script>
+    <script src="js/fabricManger.js"></script>
     <!-- custom js-->
     <script src="js/index.js"></script>
 </body>

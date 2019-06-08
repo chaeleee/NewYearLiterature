@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Myeongjo|Nanum+Pen+Script&display=swap');
+
 
 body{
     /* background-color: rgba(28,31,135); */
@@ -150,12 +151,12 @@ section#section-3 article div.part .title{
 
 }
 
-#input-grp #article-wrapper{
+#article-wrapper{
     text-align: center;
     padding-top: 15%;
 }
 
-#input-grp #article-wrapper textarea#article-input{
+#article-input{
     display: inline-block;
     width: 90%;
     text-align: center;
@@ -165,6 +166,8 @@ section#section-3 article div.part .title{
     border: none;
     background-color: transparent;
     outline: none;
+    font-family: 'Nanum Myeongjo', serif;
+    font-weight: bold;
 }
 
 #article-count-wrapper{
@@ -173,12 +176,12 @@ section#section-3 article div.part .title{
     color: rgba(0,0,0,0.5);
 }
 
-#input-grp #author-wrapper{
+#author-wrapper{
     text-align: center;
     padding-top: 5%;
 }
 
-#input-grp #author-wrapper #author-input{
+#author-input{
     display: inline-block;
     width: 90%;
     text-align: center;
@@ -186,8 +189,8 @@ section#section-3 article div.part .title{
     border: none;
     background-color: transparent;
     outline: none;
-    /* font-family: 'Nanum Pen Script', cursive; */
-
+    font-family: 'Nanum Myeongjo', serif;
+    /* font-weight: bold; */
 }
 
 #send-btn-wrapper{
