@@ -1,9 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Myeongjo|Nanum+Pen+Script&display=swap');
-
-
 body{
     /* background-color: rgba(28,31,135); */
-    font-family: 'Nanum Gothic', sans-serif;
+    /* font-family: 'Nanum Gothic', sans-serif; */
 }
 
 div.wrapper {
@@ -25,6 +22,7 @@ section div.container div.title h2.main{
     font-size: 1.5rem;
     font-weight: bold;
     padding-bottom: 2rem;
+
 }
 
 /* 섹션1: 타이틀 */
@@ -60,6 +58,7 @@ section#section-1 div.title h1.main{
     text-align: center;
     line-height: 10rem;
     margin-top: -1.6rem;
+    text-shadow: 4px 4px 4px #aaa;
 }
 
 section#section-1 article{
@@ -217,6 +216,18 @@ section#section-3 article div.part .title{
     margin-top: 0.5rem;
 }
 
+#step-2 .btn, #step-1 .btn{
+    max-width: 300px;
+    width: 100%;
+    height: 3rem;
+    margin: auto;
+    border: 1px solid black;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    font-family: 'Nanum Myeongjo', serif;
+    font-weight: bold;
+}
+
 #download-btn{
     max-width: 300px;
     width: 100%;
@@ -225,6 +236,8 @@ section#section-3 article div.part .title{
     border: 1px solid black;
     font-size: 1.2rem;
     margin-top: 0.5rem;
+    font-family: 'Nanum Myeongjo', serif;
+    font-weight: bold;
 }
 
 .canvas-container{

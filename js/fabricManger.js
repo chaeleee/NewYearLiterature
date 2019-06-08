@@ -48,6 +48,10 @@ class FabricManager{
   }
 
   initItext(){
+    this.fabricCanvas.remove(this.article.itext);
+    this.fabricCanvas.remove(this.author.itext);
+    this.fabricCanvas.renderAll();
+
     this.article.style.left = this.canvas.width / 2;
     this.article.style.top = this.canvas.height / 1.8 ;
     this.author.style.left = this.canvas.width / 2;

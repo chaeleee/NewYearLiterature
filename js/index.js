@@ -8,8 +8,8 @@ var app = new Vue({
   },
   data:{
     input:{
-      articleText: '당신의 이야기를 \n별에 담아',
-      authorText: '이름을 남겨주세요'
+      articleText: '',
+      authorText: ''
     },
     canvas:{
       width: 300,
@@ -55,7 +55,7 @@ var app = new Vue({
         width: this.canvas.width,
         height: this.canvas.height
       }
-      this.fabricManager = new FabricManager(canvasInfo, "당신의 이야기를 \n별에 담아", "작가명");
+      this.fabricManager = new FabricManager(canvasInfo, "글을 담아보세요", "이름을 남겨주세요");
     },
     downloadURI: function(uri, filename){
       let link = document.createElement("a");
@@ -89,6 +89,13 @@ var app = new Vue({
     },
     showCanvas: function(){
       $("#step-2").slideToggle("slow");
+    },
+    submissionClick: function(){
+      this.fabricManager.updateArticleText(this.input.articleText);
+      this.fabricManager.updateAuthorText(this.input.authorText);
+    },
+    initCanvas: function(){
+      this.fabricManager.initItext();
     }
 
   }
