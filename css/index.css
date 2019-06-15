@@ -308,7 +308,10 @@ section#section-6 div.title h2.main{
     cursor: pointer;
     font-size: 1.5rem;
 }
-
+ul.pagination li.page-item a.page-link{
+    color: black;
+    cursor: pointer;
+}
 
 /* Footer */
 #section-7{
