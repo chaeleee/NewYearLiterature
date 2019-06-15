@@ -145,7 +145,8 @@
                                             <textarea name="" id="article-input" cols="20" rows="4"
                                                 placeholder="글을 담아보세요"
                                                 v-on:input="$emit('article-input', $event.target.value)"
-                                                v-on:keyup="limitArticleInput">{{ work.article }}</textarea>
+                                                v-on:keyup="limitArticleInput"
+                                                v-bind:value="work.article"></textarea>
                                         </div>
                                         <div id="article-count-wrapper">
                                             <span id="article-count">{{ articleLength }}</span>/60

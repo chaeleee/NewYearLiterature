@@ -188,7 +188,6 @@ var app = new Vue({
     },
     completeInput(){
       $('#submission').modal('toggle');
-      // 공모작 이미지 변환 컴포넌트 텍스트 갱신
     },
     toggleCanvas(){
       if(this.displayWorkCanvas){
