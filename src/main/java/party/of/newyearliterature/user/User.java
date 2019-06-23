@@ -11,9 +11,12 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import lombok.Data;
+
 /**
  * User
  */
+@Data
 @Entity
 @Table(name="tbl_user")
 public class User {

@@ -12,11 +12,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import lombok.Data;
 import party.of.newyearliterature.user.User;
 
 /**
  * Work
  */
+@Data
 @Entity
 @Table(name="tbl_work")
 public class Work {
@@ -39,6 +43,7 @@ public class Work {
     enum Award {
         GOLD, SILVER, BRONZE, BASIC
     }
-
+    
+    @CreationTimestamp
     private LocalDateTime createdAt;
 }
