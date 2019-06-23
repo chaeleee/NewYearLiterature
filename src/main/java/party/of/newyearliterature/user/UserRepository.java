@@ -1,8 +1,6 @@
-package party.of.newyearliterature.user.repository;
+package party.of.newyearliterature.user;
 
 import org.springframework.data.repository.CrudRepository;
-
-import party.of.newyearliterature.user.entities.User;
 
 /**
  * UserRepository

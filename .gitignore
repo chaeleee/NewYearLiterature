@@ -77,3 +77,5 @@ gradle-app.setting
 **/build/
 
 # End of https://www.gitignore.io/api/git,java,gradle,java-web,visualstudiocode
+
+bin/*

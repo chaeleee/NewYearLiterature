@@ -1,4 +1,4 @@
-package party.of.newyearliterature.like.entities;
+package party.of.newyearliterature.like;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +12,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import party.of.newyearliterature.user.entities.User;
-import party.of.newyearliterature.work.entities.Work;
+import party.of.newyearliterature.user.User;
+import party.of.newyearliterature.work.Work;
 
 /**
  * Like

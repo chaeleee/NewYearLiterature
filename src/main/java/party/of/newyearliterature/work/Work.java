@@ -1,4 +1,4 @@
-package party.of.newyearliterature.work.entities;
+package party.of.newyearliterature.work;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import party.of.newyearliterature.user.entities.User;
+import party.of.newyearliterature.user.User;
 
 /**
  * Work

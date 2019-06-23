@@ -1,4 +1,4 @@
-package party.of.newyearliterature.user.entities;
+package party.of.newyearliterature.user;
 
 import java.time.LocalDateTime;
 

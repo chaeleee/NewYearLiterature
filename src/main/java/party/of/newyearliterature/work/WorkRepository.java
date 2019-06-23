@@ -1,8 +1,6 @@
-package party.of.newyearliterature.work.repository;
+package party.of.newyearliterature.work;
 
 import org.springframework.data.repository.CrudRepository;
-
-import party.of.newyearliterature.work.entities.Work;
 
 /**
  * WorkRepository
