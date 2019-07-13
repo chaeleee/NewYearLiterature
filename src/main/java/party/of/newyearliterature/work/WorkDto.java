@@ -17,6 +17,7 @@ public class WorkDto {
     private String article;
     private String author;
     private Long userId;
+    private String userEmail;
     private String award;
     private Long createdAt;
     

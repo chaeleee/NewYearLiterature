@@ -2,6 +2,7 @@ package party.of.newyearliterature.work;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,7 +23,7 @@ import party.of.newyearliterature.user.User;
  */
 @Data
 @Entity
-@Table(name="tbl_work")
+@Table(name = "tbl_work")
 public class Work {
 
     @Id
@@ -32,7 +33,8 @@ public class Work {
     private String article;
 
     private String author;
-    
+
+    // @ManyToOne(cascade = CascadeType.PERSIST)
     @ManyToOne
     @JoinColumn
     private User user;

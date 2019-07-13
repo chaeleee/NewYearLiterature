@@ -2,10 +2,12 @@ package party.of.newyearliterature.work;
 
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import party.of.newyearliterature.user.User;
@@ -23,18 +25,28 @@ public class WorkServiceImpl implements WorkService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public WorkDto submit(WorkDto workDto) {
         Work work = new Work();
         work.setArticle(workDto.getArticle());
         work.setAuthor(workDto.getAuthor());
-        // Optional<User> opt = userRepository.findById(workDto.getId());
-        // work.setUser(opt.get());
-
+        
+        User user = null;
+        if(Objects.isNull(workDto.getUserId())){
+            user = new User();
+            user.setEmail(workDto.getUserEmail());
+            user = userRepository.save(user);
+        }else{
+            Optional<User> optUser = userRepository.findById(workDto.getUserId());
+            if(optUser.isPresent()) user = optUser.get();
+        }
+        work.setUser(user);
         work = repository.save(work);
+
         WorkDto dto = new WorkDto();
         dto.setArticle(work.getArticle());
         dto.setAuthor(work.getAuthor());
-        // dto.setUserId(work.getUser().getId());
+        dto.setUserId(work.getUser().getId());
         dto.setCreatedAt(work.getCreatedAt().toEpochSecond(ZoneOffset.UTC));
         return dto;
     }
