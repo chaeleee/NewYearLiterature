@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name="tbl_user")findUserById
+@Table(name="tbl_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
