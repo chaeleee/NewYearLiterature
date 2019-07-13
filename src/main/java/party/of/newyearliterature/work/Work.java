@@ -14,13 +14,16 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import party.of.newyearliterature.user.User;
 
 /**
  * Work
  */
-@Data
+@Setter(value = AccessLevel.PACKAGE)
+@Getter
 @Entity
 @Table(name="tbl_work")
 public class Work {

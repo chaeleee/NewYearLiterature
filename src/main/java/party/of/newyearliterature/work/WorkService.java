@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort;
  */
 public interface WorkService {
     
-    WorkDto submit(WorkDto workDto);
+    WorkCreateDto submit(WorkCreateDto workDto);
 
     List<WorkDto> getAll(Sort sort);
 

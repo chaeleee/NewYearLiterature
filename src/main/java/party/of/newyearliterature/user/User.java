@@ -11,14 +11,16 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * User
  */
-@Data
+@Setter
+@Getter
 @Entity
-@Table(name="tbl_user")
+@Table(name="tbl_user")findUserById
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
