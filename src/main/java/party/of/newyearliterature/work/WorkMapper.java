@@ -1,31 +1,45 @@
 package party.of.newyearliterature.work;
 
 import java.time.ZoneOffset;
+import java.util.Objects;
 
-import party.of.newyearliterature.user.User;
-import party.of.newyearliterature.user.UserDto;
+import party.of.newyearliterature.user.UserMapper;
 
 /**
  * WorkMapper
  */
 public class WorkMapper {
     
-    public static Work map(WorkCreateDto dto, User user){
+    public static Work map(WorkCreateDto dto){
         Work work = new Work();
         work.setArticle(dto.getArticle());
         work.setAuthor(dto.getAuthor());
-        work.setUser(user);
+        work.setUser(UserMapper.map(dto.getUserDto()));
         return work;
     }
 
-    public static WorkCreateDto map(Work work, UserDto userDto){
-        WorkCreateDto dto = new WorkCreateDto();
+    public static WorkDto map(Work work, Boolean isCascade){
+        WorkDto dto = new WorkDto();
         dto.setId(work.getId());
         dto.setArticle(work.getArticle());
         dto.setAuthor(work.getAuthor());
-        dto.setCreatedAt(work.getCreatedAt().toEpochSecond(ZoneOffset.UTC));
-        dto.setUserDto(userDto);
+        if(!Objects.isNull(work.getCreatedAt())){
+            dto.setCreatedAt(work.getCreatedAt().toEpochSecond(ZoneOffset.UTC));
+        }
+        if(isCascade){
+            dto.setUserDto(UserMapper.map(work.getUser()));
+        }
         return dto;
+    }
+
+    public static Work map(WorkDto dto, Boolean isCascade){
+        Work work = new Work();
+        work.setArticle(dto.getArticle());
+        work.setAuthor(dto.getAuthor());
+        if(isCascade){
+            work.setUser(UserMapper.map(dto.getUserDto()));
+        }
+        return work;
     }
 
 }

@@ -25,15 +25,12 @@ public class WorkServiceImpl implements WorkService {
 
     private final UserRepository userRepository;
 
-    private final UserService userService;
-
     @Override
     @Transactional
-    public WorkCreateDto submit(WorkCreateDto workDto) {
-        UserDto userDto = userService.signUp(workDto.getUserDto());
-        Work work = WorkMapper.map(workDto, findUserById(userDto.getId()));
+    public WorkDto submit(WorkDto workDto) {
+        Work work = WorkMapper.map(workDto, true);
         work = repository.save(work);
-        return WorkMapper.map(work, userDto);
+        return WorkMapper.map(work, true);
     }
 
     @Override

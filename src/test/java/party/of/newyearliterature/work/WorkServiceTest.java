@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserDto;
 import party.of.newyearliterature.user.UserRepository;
-import party.of.newyearliterature.user.UserService;
 
 /**
  * WorkServiceTest
@@ -33,10 +32,8 @@ public class WorkServiceTest {
 
     @MockBean private UserRepository userRepo;
 
-    @MockBean private UserService userService;
-
     @Before public void setup(){
-        service = new WorkServiceImpl(workRepo, userRepo, userService);
+        service = new WorkServiceImpl(workRepo, userRepo);
     }
 
     @Test public void 유저와작업물등록_작업물과유저정보반환(){
@@ -56,18 +53,16 @@ public class WorkServiceTest {
         work.setCreatedAt(LocalDateTime.ofEpochSecond(System.currentTimeMillis(), 0, ZoneOffset.UTC));
         work.setUser(user);
 
-        WorkCreateDto dto = new WorkCreateDto();
+        WorkDto dto = new WorkDto();
         dto.setId(work.getId());
         dto.setArticle(work.getArticle());
         dto.setAuthor(work.getAuthor());
         dto.setUserDto(userDto);     
 
-        when(userRepo.findById(user.getId())).thenReturn(Optional.of(user));
         when(workRepo.save(any(Work.class))).thenReturn(work);
-        when(userService.signUp(userDto)).thenReturn(userDto);
 
         // When
-        WorkCreateDto res = service.submit(dto);
+        WorkDto res = service.submit(dto);
 
         // Then
         assertEquals(dto.getArticle(), res.getArticle());

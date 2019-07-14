@@ -38,7 +38,7 @@ public class Work {
     private String author;
 
     // @ManyToOne(cascade = CascadeType.PERSIST)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn
     private User user;
     
