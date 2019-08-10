@@ -93,9 +93,10 @@ public class WorkServiceTest {
         when(workRepo.save(any(Work.class))).thenReturn(work);
 
         // When
-        WorkDto res = service.submit(dto);
+        service.submit(dto);
 
         // Then
+        // throw BadRequestException
     }
 
 }

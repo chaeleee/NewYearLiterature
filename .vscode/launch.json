@@ -1,5 +1,13 @@
 {
     "configurations": [
+    {
+        "type": "java",
+        "name": "Debug (Launch)",
+        "request": "launch",
+        "mainClass": "party.of.newyearliterature.DemoApplication",
+        "projectName": "new-year-literature",
+        "args": ""
+    },
         {
             "type": "java",
             "name": "Spring Boot-DemoApplication<new-year-literature>",
