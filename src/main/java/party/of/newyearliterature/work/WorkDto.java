@@ -26,4 +26,13 @@ public class WorkDto {
     private String award;
     private Long createdAt;
     
+
+    public WorkDto(){}
+
+    public WorkDto(String article, String author, UserDto userDto){
+        this.article = article;
+        this.author = author;
+        this.userDto = userDto;
+    }
+
 }

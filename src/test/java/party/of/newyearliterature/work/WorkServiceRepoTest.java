@@ -17,19 +17,14 @@ import party.of.newyearliterature.user.UserDto;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestWorkServiceRepo {
+public class WorkServiceRepoTest {
 
     @Autowired private WorkService workService;
 
     @Test public void 작업과유저등록_작업과유저ID반환(){
         // Given
-        UserDto userDto = new UserDto();
-        userDto.setEmail("email");
-        userDto.setNickname("nickname");
-        WorkDto workDto = new WorkDto();
-        workDto.setArticle("article");
-        workDto.setAuthor("author");
-        workDto.setUserDto(userDto);
+        UserDto userDto = new UserDto("email", "name");
+        WorkDto workDto = new WorkDto("article","author", userDto);
         // When
         WorkDto resDto = workService.submit(workDto);
         // Then

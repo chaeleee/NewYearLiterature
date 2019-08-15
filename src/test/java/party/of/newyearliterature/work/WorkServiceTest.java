@@ -51,7 +51,7 @@ public class WorkServiceTest {
         work.setUser(user);
 
         WorkDto dto = new WorkDto();
-        dto.setId(work.getId());
+        // dto.setId(work.getId());
         dto.setArticle(work.getArticle());
         dto.setAuthor(work.getAuthor());
         dto.setUserDto(userDto);     
@@ -85,7 +85,7 @@ public class WorkServiceTest {
         work.setUser(user);
 
         WorkDto dto = new WorkDto();
-        dto.setId(work.getId());
+        // dto.setId(work.getId());
         dto.setArticle(work.getArticle());
         dto.setAuthor(work.getAuthor());
         dto.setUserDto(userDto);     
@@ -99,5 +99,16 @@ public class WorkServiceTest {
         // throw BadRequestException
     }
 
+    // 유저정보 미입력, 작품제출, 잘못된 요청 반환
+    @Test(expected = BadRequestException.class)
+    public void userIsNone_submit_BadReuqestEx(){
+        WorkDto dto = new WorkDto();
+        dto.setArticle("article");
+        dto.setAuthor("author");
+        dto.setUserDto(null);
+        
+        //when
+        service.submit(dto);
+    }
 
 }

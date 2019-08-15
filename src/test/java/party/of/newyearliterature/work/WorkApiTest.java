@@ -11,6 +11,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -36,29 +37,50 @@ public class WorkApiTest {
         String article = "article-123";
         String author = "author-123";
         String email = "email@gmail.com";
-        String nickname = "email@gmail.com";
+        String name = "email@gmail.com";
+
+        UserDto userDto = new UserDto(email, name);
+        WorkDto workDto = new WorkDto(article, author, userDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        WorkDto workDto = new WorkDto();
-        workDto.setArticle(article);
-        workDto.setAuthor(author);
-        UserDto userDto = new UserDto();
-        userDto.setEmail(email);
-        userDto.setNickname(nickname);
-        workDto.setUserDto(userDto);
+        
         HttpEntity<WorkDto> requestEntity = new HttpEntity<WorkDto>(workDto, headers);
 
         // when
         ResponseEntity<WorkDto> response = restTemplate.postForEntity("http://localhost:"+port+"/api/work", requestEntity, WorkDto.class);
 
         // then
-        WorkDto responseDto = response.getBody();
-        assertEquals(article, responseDto.getArticle());
-        assertEquals(author, responseDto.getAuthor());
-        UserDto responseUserDto = responseDto.getUserDto();
-        assertEquals(email, responseUserDto.getEmail());
-        assertEquals(nickname, responseUserDto.getNickname());
+        WorkDto resWorkDto = response.getBody();
+        UserDto resUserDto = resWorkDto.getUserDto();
+        
+        assertEquals(article, resWorkDto.getArticle());
+        assertEquals(author, resWorkDto.getAuthor());
+        assertEquals(email, resUserDto.getEmail());
+        assertEquals(name, resUserDto.getName());
+    }
+
+    @Test
+    public void NoneUser_submit_test(){
+        // given
+        String article = "article-123";
+        String author = "author-123";
+
+        WorkDto workDto = new WorkDto();
+        workDto.setArticle(article);
+        workDto.setAuthor(author);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<WorkDto> request = new HttpEntity<WorkDto>(workDto, headers);
+
+        // when
+        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:"+port+"/api/work", request, String.class);
+        
+        // then
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+
     }
 
     
