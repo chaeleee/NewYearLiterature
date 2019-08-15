@@ -1,3 +1,5 @@
+# ignore images
+img/*
 
 # Created by https://www.gitignore.io/api/git,java,gradle,java-web,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=git,java,gradle,java-web,visualstudiocode
