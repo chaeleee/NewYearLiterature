@@ -18,7 +18,7 @@ public class WorkController {
     private final WorkService workService;
 
     @PostMapping("/api/work")
-    public WorkDto submit(@RequestBody WorkDto workDto){
+    public WorkDto submit(@RequestBody(required=true)  WorkDto workDto){
         return workService.submit(workDto);
     }
 }

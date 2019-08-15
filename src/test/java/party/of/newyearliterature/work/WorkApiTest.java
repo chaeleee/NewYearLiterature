@@ -59,6 +59,7 @@ public class WorkApiTest {
         UserDto responseUserDto = responseDto.getUserDto();
         assertEquals(email, responseUserDto.getEmail());
         assertEquals(nickname, responseUserDto.getNickname());
-
     }
+
+    
 }

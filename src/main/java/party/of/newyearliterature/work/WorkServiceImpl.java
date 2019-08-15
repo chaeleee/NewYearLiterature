@@ -56,8 +56,10 @@ public class WorkServiceImpl implements WorkService {
     private void validate(WorkDto workDto){
         if(workDto.getArticle().isBlank() || workDto.getAuthor().isBlank()){
             throw new BadRequestException("본문과 작명이 비어있습니다");
-        }   
+        }
     }
+
+    
 
     
 }

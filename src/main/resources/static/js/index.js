@@ -73,27 +73,51 @@ var WorkSubmit = {
   props: ['work'],
   data(){
     return {
-
+      host: 'http://localhost:8080',
+      uri: '/api/work',
+      user:{
+        email: 'email',
+        password: 'password'
+      }
     };
   },
   methods: {
     submitHandler: function(){
-      // if(this.isValidEmail()){
-      //   if(this.isValidPassword()){
-      //     let isSuccess = this.submitWork();
-      //     if(isSuccess){
-      //       alert("소중한 작품 응모 감사합니다");
-      //       this.toggleSubmissionModal();
-      //     }else{
-      //       alert("다시 시도해주세요~");
-      //     }
-      //   }else{
-      //     alert("비밀번호 형식에 맞춰 입력해주세요.")
-      //   }
-      // }else{
-      //   alert("중복된 이메일입니다.")
-      // }
+      if(this.isValidEmail()){
+        if(this.isValidPassword()){
+          this.submitWork(this.successHandler);
+        }else{
+          alert("비밀번호 형식에 맞춰 입력해주세요.")
+        }
+      }else{
+        alert("중복된 이메일입니다.")
+      }
     },
+    isValidEmail: function(){
+      return true;
+    },
+    isValidPassword: function(){
+      return true;
+    },
+    submitWork: function(successHandler){
+      this.work.user = this.user;
+      $.ajax({
+        type: "POST",
+        url: this.host + this.uri,
+        data: JSON.stringify(this.work),
+        success: successHandler,
+        dataType: 'json',
+        contentType: 'application/json'
+      });
+    },
+    successHandler: function(){
+      if(isSuccess){
+        alert("소중한 작품 응모 감사합니다");
+        this.toggleSubmissionModal();
+      }else{
+        alert("다시 시도해주세요~");
+      }
+    }
   },
   
 }
