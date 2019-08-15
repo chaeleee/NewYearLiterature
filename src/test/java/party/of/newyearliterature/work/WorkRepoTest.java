@@ -25,13 +25,8 @@ public class WorkRepoTest {
     
     @Test public void 작업과유저_등록_작업과유저정보반환(){
         // Given
-        User user = new User();
-        user.setEmail("email");
-        user.setNickname("nickname");
-        Work work = new Work();
-        work.setArticle("article");
-        work.setAuthor("author");
-        work.setUser(user);
+        User user = new User("email", "name");
+        Work work = new Work("article", "author", user);
         // When
         work = workRepository.save(work);
         // Then

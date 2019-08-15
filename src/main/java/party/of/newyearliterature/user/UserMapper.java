@@ -12,7 +12,7 @@ public class UserMapper {
         User user = new User();
         user.setId(dto.getId());
         user.setEmail(dto.getEmail());
-        user.setNickname(dto.getName());
+        user.setName(dto.getName());
         return user;
     }
 
@@ -20,7 +20,7 @@ public class UserMapper {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
-        dto.setName(user.getNickname());
+        dto.setName(user.getName());
         if(!Objects.isNull(user.getCreatedAt())){
             dto.setCreatedAt(user.getCreatedAt().toEpochSecond(ZoneOffset.UTC));
         }

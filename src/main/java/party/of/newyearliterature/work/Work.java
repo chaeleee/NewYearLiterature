@@ -51,4 +51,11 @@ public class Work {
     
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    public Work(){}
+    public Work(String article, String author, User user){
+        this.article = article;
+        this.author = author;
+        this.user = user;
+    }
 }

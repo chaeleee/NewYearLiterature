@@ -28,11 +28,18 @@ public class User {
    
     private String email;
 
-    private String nickname;
+    private String name;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public User(){}
+
+    public User(String email, String name){
+        this.email = email;
+        this.name = name;
+    }
 }
