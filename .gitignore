@@ -1,6 +1,3 @@
-# ignore images
-img/*
-
 # Created by https://www.gitignore.io/api/git,java,gradle,java-web,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=git,java,gradle,java-web,visualstudiocode
 
@@ -80,4 +77,6 @@ gradle-app.setting
 
 # End of https://www.gitignore.io/api/git,java,gradle,java-web,visualstudiocode
 
+img/*
 bin/*
+.settings/org.eclipse.buildship.core.prefs
