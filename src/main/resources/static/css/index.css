@@ -248,6 +248,13 @@ section#section-3 article div.part .title{
     border: 1px solid rgba(0,0,0,0.2);
 }
 
+.error-msg{
+    color: red;
+    font-size: 0.8rem;
+    padding-top: 0.3rem;
+    padding-left: 0.3rem;
+}
+
 /* Section 5 결과 */
 
 section#section-5{

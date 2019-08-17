@@ -57,7 +57,6 @@ var WorkInput = {
     submitClickHandler(){
       this.$emit('completeInput');
     },
-
   },
   computed: {
     articleLength: function(){
@@ -78,48 +77,68 @@ var WorkSubmit = {
       user:{
         email: 'email',
         password: 'password'
-      }
+      },
+      emailErrorMsg: "",
+      passwordErrorMsg: ""
     };
   },
   methods: {
     submitHandler: function(){
+      this.emailErrorMsg = "";
+      this.passwordErrorMsg = "";
       if(this.isValidEmail()){
         if(this.isValidPassword()){
-          this.submitWork(this.successHandler);
+          this.submitWork();
         }else{
-          alert("비밀번호 형식에 맞춰 입력해주세요.")
+          this.passwordErrorMsg = "비밀번호 형식에 맞춰 입력해주세요.";
         }
       }else{
-        alert("중복된 이메일입니다.")
+        this.emailErrorMsg = "이메일 입력을 확인해주세요";
       }
     },
     isValidEmail: function(){
-      return true;
+      let isValid = true;
+      if(this.user.email === ""){
+        isValid = false;
+      }
+      if(this.user.email.length > 256){
+        isValid = false;
+      }
+      return isValid;
     },
     isValidPassword: function(){
-      return true;
+      let isValid = true;
+      if(this.user.password.length < 4 || this.user.password.length > 50){
+        isValid = false;
+      }
+      return isValid;
     },
-    submitWork: function(successHandler){
-      this.work.user = this.user;
+    submitWork: function(){
+      let request = Object.assign({}, this.work);
+      request.user = this.user;
       $.ajax({
         type: "POST",
         url: this.host + this.uri,
-        data: JSON.stringify(this.work),
-        success: successHandler,
+        data: JSON.stringify(request),
         dataType: 'json',
         contentType: 'application/json'
-      });
+      })
+      .done(this.successHandler)
+      .fail(this.failHandler)
     },
-    successHandler: function(){
-      if(isSuccess){
-        alert("소중한 작품 응모 감사합니다");
-        this.toggleSubmissionModal();
-      }else{
-        alert("다시 시도해주세요~");
-      }
+    successHandler: function(work){
+      this.$emit('submitwork', work);
+      alert("소중한 작품 응모 감사합니다");
+      $('#submission').modal('hide');
+      this.initUserPassword();
+    },
+    failHandler: function(jqXhr, textStatus, errorThrown){
+      alert("Error: " + textStatus + " : " + errorThrown);
+    },
+    initUserPassword(){
+      this.user.password = "";
     }
   },
-  
 }
 
 
@@ -199,7 +218,10 @@ var app = new Vue({
   data:{
       work:{
         article: "",
-        author: ""
+        author: "",
+        user: {
+          email: ""
+        }
       },
       displayWorkCanvas: false,
   },
@@ -222,12 +244,11 @@ var app = new Vue({
         this.displayWorkCanvas = true;
       }
     },
+    updateWork(work){
+      this.work = work;
+    }
   },
   mounted() {
     
   },
 });
-
-
-
-
