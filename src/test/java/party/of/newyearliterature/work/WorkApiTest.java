@@ -61,7 +61,7 @@ public class WorkApiTest {
     }
 
     @Test
-    public void NoneUser_submit_test(){
+    public void None_User_submit_BadRequest_test(){
         // given
         String article = "article-123";
         String author = "author-123";
@@ -79,8 +79,6 @@ public class WorkApiTest {
         
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        
-
     }
 
     
