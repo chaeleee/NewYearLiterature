@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import party.of.newyearliterature.exception.BadRequestException;
+import party.of.newyearliterature.user.User;
+import party.of.newyearliterature.user.UserService;
 
 /**
  * WorkServiceImpl
@@ -19,13 +21,19 @@ import party.of.newyearliterature.exception.BadRequestException;
 public class WorkServiceImpl implements WorkService {
 
     private final WorkRepository repository;
+    private final UserService userService;
 
     @Override
     @Transactional
     public WorkDto submit(WorkDto workDto) {
         validate(workDto);
-        Work work = WorkMapper.map(workDto, true);
+        
+        User user = userService.signUp(workDto.getUserDto());
+
+        Work work = WorkMapper.map(workDto, false);
+        work.setUser(user);
         work = repository.save(work);
+        
         return WorkMapper.map(work, true);
     }
 

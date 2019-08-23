@@ -10,6 +10,7 @@ import java.time.ZoneOffset;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import party.of.newyearliterature.exception.BadRequestException;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserDto;
+import party.of.newyearliterature.user.UserService;
 
 /**
  * WorkServiceTest
@@ -28,12 +30,13 @@ public class WorkServiceTest {
     private WorkService service;
 
     @MockBean private WorkRepository workRepo;
+    @Autowired private UserService userService;
 
     @Before public void setup(){
-        service = new WorkServiceImpl(workRepo);
+        service = new WorkServiceImpl(workRepo, userService);
     }
 
-    @Test public void 유저와작업물등록_작업물과유저정보반환(){
+    @Test public void WorkAndUser_Submit_Return_WorkAndUser(){
         // Given
         User user = new User();
         user.setId(1L);
@@ -67,7 +70,7 @@ public class WorkServiceTest {
     }
     
     @Test(expected = BadRequestException.class)
-    public void 작업물본문누락_유저와작업물등록_BadReuqest에러발생(){
+    public void ArticleIsNull_UserAndWork_Submit_Return_BadReuqestException(){
         // Given
         User user = new User();
         user.setId(1L);
@@ -101,7 +104,7 @@ public class WorkServiceTest {
 
     // 유저정보 미입력, 작품제출, 잘못된 요청 반환
     @Test(expected = BadRequestException.class)
-    public void userIsNone_submit_BadReuqestEx(){
+    public void UserIsNull_Submit_Return_BadReuqestException(){
         WorkDto dto = new WorkDto();
         dto.setArticle("article");
         dto.setAuthor("author");
@@ -110,5 +113,37 @@ public class WorkServiceTest {
         //when
         service.submit(dto);
     }
+
+    @Test(expected = BadRequestException.class)
+    public void PasswordIsNull_WorkAndUser_Submit_Return_BadRequestException(){
+        // Given
+        User user = new User();
+        user.setId(1L);
+        user.setEmail("email");
+        user.setPassword(null);
+
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setEmail(user.getEmail());
+
+        Work work = new Work();
+        work.setId(1L);
+        work.setArticle("article");
+        work.setAuthor("author");
+        work.setCreatedAt(LocalDateTime.ofEpochSecond(System.currentTimeMillis(), 0, ZoneOffset.UTC));
+        work.setUser(user);
+
+        WorkDto dto = new WorkDto();
+        dto.setArticle(work.getArticle());
+        dto.setAuthor(work.getAuthor());
+        dto.setUserDto(userDto);     
+
+        when(workRepo.save(any(Work.class))).thenReturn(work);
+
+        // When
+       service.submit(dto);
+
+    }
+
 
 }

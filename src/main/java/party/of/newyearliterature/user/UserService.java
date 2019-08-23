@@ -5,7 +5,8 @@ package party.of.newyearliterature.user;
  */
 public interface UserService {
 
-    UserDto signUp(UserDto userDto);
+    UserDto signUpDto(UserDto userDto);
+    User signUp(UserDto userDto);
     UserDto remove(UserDto userDto);
     UserDto getByEmail(UserDto userDto);
     UserDto getByNickname(UserDto userDto);

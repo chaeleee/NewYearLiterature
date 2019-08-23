@@ -38,8 +38,9 @@ public class WorkApiTest {
         String author = "author-123";
         String email = "email@gmail.com";
         String name = "email@gmail.com";
+        String password = "password";
 
-        UserDto userDto = new UserDto(email, name);
+        UserDto userDto = UserDto.builder().email(email).name(name).password(password).build();
         WorkDto workDto = new WorkDto(article, author, userDto);
 
         HttpHeaders headers = new HttpHeaders();

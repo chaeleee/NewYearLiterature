@@ -2,7 +2,6 @@ package party.of.newyearliterature.work;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -37,8 +36,7 @@ public class Work {
 
     private String author;
 
-    // @ManyToOne(cascade = CascadeType.PERSIST)
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn
     private User user;
     

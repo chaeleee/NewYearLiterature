@@ -23,7 +23,7 @@ public class WorkServiceRepoTest {
 
     @Test public void 작업과유저등록_작업과유저ID반환(){
         // Given
-        UserDto userDto = new UserDto("email", "name");
+        UserDto userDto = UserDto.builder().email("email").name("name").password("password").build();
         WorkDto workDto = new WorkDto("article","author", userDto);
         // When
         WorkDto resDto = workService.submit(workDto);
