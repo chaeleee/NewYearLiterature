@@ -80,3 +80,6 @@ gradle-app.setting
 img/*
 bin/*
 .settings/org.eclipse.buildship.core.prefs
+.project
+.classpath
+.settings/
