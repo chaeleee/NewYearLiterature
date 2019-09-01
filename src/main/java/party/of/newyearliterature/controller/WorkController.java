@@ -1,5 +1,6 @@
 package party.of.newyearliterature.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,5 +21,10 @@ public class WorkController {
     @PostMapping("/api/work")
     public WorkDto submit(@RequestBody(required=true)  WorkDto workDto){
         return workService.submit(workDto);
+    }
+
+    @GetMapping("/api/work")
+    public String getWork(){
+        return "hello";
     }
 }

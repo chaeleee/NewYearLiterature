@@ -41,10 +41,14 @@ public class WorkServiceTest {
         User user = new User();
         user.setId(1L);
         user.setEmail("email");
+        user.setName("name");
+        user.setPassword("password");
 
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
+        userDto.setName(user.getName());
         userDto.setEmail(user.getEmail());
+        userDto.setPassword(user.getPassword());
 
         Work work = new Work();
         work.setId(1L);

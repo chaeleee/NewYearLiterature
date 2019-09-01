@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import party.of.newyearliterature.user.User;
-
 /**
  * WorkRepoTest
  */
@@ -21,16 +19,13 @@ public class WorkRepoTest {
 
     @Autowired
     private WorkRepository workRepository;
-
     
-    @Test public void 작업과유저_등록_작업과유저정보반환(){
+    @Test public void Test_Work_Save(){
         // Given
-        User user = new User("email", "name");
-        Work work = new Work("article", "author", user);
+        Work work = new Work("article", "author", null);
         // When
         work = workRepository.save(work);
         // Then
         assertFalse(Objects.isNull(work.getId()));
-        assertFalse(Objects.isNull(work.getUser().getId()));
     }
 }

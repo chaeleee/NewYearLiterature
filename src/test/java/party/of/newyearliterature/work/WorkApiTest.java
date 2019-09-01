@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import party.of.newyearliterature.user.UserDto;
@@ -76,7 +78,9 @@ public class WorkApiTest {
         HttpEntity<WorkDto> request = new HttpEntity<WorkDto>(workDto, headers);
 
         // when
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:"+port+"/api/work", request, String.class);
+        ResponseEntity<String> response = restTemplate
+                                            .withBasicAuth("admin", "admin")
+                                            .postForEntity("http://localhost:"+port+"/api/work", request, String.class);
         
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
