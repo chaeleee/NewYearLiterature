@@ -26,23 +26,26 @@ public class TestRestSecurity {
     @Autowired
     TestRestTemplate restTemplate;
 
-    @Test
-    public void test_UnAuth(){
-        ResponseEntity<String> response = this.restTemplate.getForEntity("/api/user/secure", String.class);
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-    }
+    private String getUserInfoUrl = "/api/user/me";
 
     @Test
-    public void test_mock_auth(){
-        ResponseEntity<String> response = this.restTemplate.withBasicAuth("admin@of.com", "admin")
-                                            .getForEntity("/api/user/secure", String.class);
+    public void Test_Login(){
+        Given_inValidUser_When_login_Then_UnAuth("annonynous","___");
+        Given_inValidUser_When_login_Then_UnAuth("","");
+        Given_validUser_When_login_Then_OK("admin@of.com", "admin");
+        Given_validUser_When_login_Then_OK("user@of.com", "password");
+    }
+
+    private void Given_validUser_When_login_Then_OK(String userEmail, String password){
+        ResponseEntity<String> response = this.restTemplate.withBasicAuth(userEmail, password)
+                                            .getForEntity(getUserInfoUrl, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    @Test
-    public void test_mock_UnAuth(){
-        ResponseEntity<String> response = this.restTemplate.withBasicAuth("annonymous", "123")
-                                            .getForEntity("/api/user/secure", String.class);
+    private void Given_inValidUser_When_login_Then_UnAuth(String userEmail, String password){
+        ResponseEntity<String> response = this.restTemplate.withBasicAuth(userEmail, password)
+                                            .getForEntity(getUserInfoUrl, String.class);
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
+
 }
