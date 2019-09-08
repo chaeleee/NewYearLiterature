@@ -24,6 +24,7 @@ public class UserMapper {
         if(!Objects.isNull(user.getCreatedAt())){
             dto.setCreatedAt(user.getCreatedAt().toEpochSecond(ZoneOffset.UTC));
         }
+        dto.setRole(user.getRole());
         return dto;
 	}
 }

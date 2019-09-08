@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import party.of.newyearliterature.role.Role;
 
 /**
  * UserDto
@@ -24,6 +25,7 @@ public class UserDto {
     private String password;
     private Long createdAt;
     private Long updatedAt;
+    private Role role;
 
     public UserDto(){}
 

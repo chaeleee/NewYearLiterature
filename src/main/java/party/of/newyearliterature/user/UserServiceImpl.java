@@ -1,11 +1,13 @@
 package party.of.newyearliterature.user;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import party.of.newyearliterature.exception.BadRequestException;
+import party.of.newyearliterature.exception.NotFoundException;
 
 /**
  * UserServiceImpl
@@ -35,7 +37,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getByEmail(UserDto userDto) {
-        return null;
+        Optional<User> opt = userRepository.findByEmail(userDto.getEmail());
+        User user = opt.orElseThrow(
+            ()-> new NotFoundException("유저 정보를 찾을 수 없습니다: "+ userDto.getEmail())
+        );
+        return UserMapper.map(user);
     }
 
     @Override

@@ -34,14 +34,14 @@ public class TestRestSecurity {
 
     @Test
     public void test_mock_auth(){
-        ResponseEntity<String> response = this.restTemplate.withBasicAuth("admin", "admin")
+        ResponseEntity<String> response = this.restTemplate.withBasicAuth("admin@of.com", "admin")
                                             .getForEntity("/api/user/secure", String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void test_mock_UnAuth(){
-        ResponseEntity<String> response = this.restTemplate.withBasicAuth("admin", "123")
+        ResponseEntity<String> response = this.restTemplate.withBasicAuth("annonymous", "123")
                                             .getForEntity("/api/user/secure", String.class);
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }

@@ -9,40 +9,43 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * BasicConfiguration
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class BasicConfiguration extends WebSecurityConfigurerAdapter{
+
+    private final MyUserDetailsService myUserDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth
-            .inMemoryAuthentication()
-            .withUser("user")
-                .password(encoder().encode("password"))
-                .roles("USER")
-                .and()
-            .withUser("admin")
-                .password(encoder().encode("admin"))
-                .roles("USER", "ADMIN");
+        auth.userDetailsService(myUserDetailsService)
+            .passwordEncoder(passwordEncoder());
     }
-
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/api/user/secure")
-            .authenticated()
+            .antMatchers("/api/user/secure").authenticated()
+            .antMatchers("/api/admin").hasRole("admin")
             .anyRequest().permitAll()
             .and()
-            .httpBasic();
+            .httpBasic()
+            .and()
+            .headers().frameOptions().disable();
+            // .and()
+            // .sessionManagement()
+            // .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Bean
-    public PasswordEncoder encoder(){
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
     
