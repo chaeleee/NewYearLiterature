@@ -75,26 +75,38 @@ var WorkSubmit = {
       host: 'http://localhost:8080',
       uri: '/api/work',
       user:{
-        email: 'email',
-        password: 'password'
+        name: '',
+        email: '',
+        password: ''
       },
       emailErrorMsg: "",
-      passwordErrorMsg: ""
+      passwordErrorMsg: "",
+      nameErrorMsg: ""
     };
   },
   methods: {
     submitHandler: function(){
       this.emailErrorMsg = "";
       this.passwordErrorMsg = "";
-      if(this.isValidEmail()){
-        if(this.isValidPassword()){
-          this.submitWork();
-        }else{
-          this.passwordErrorMsg = "비밀번호 형식에 맞춰 입력해주세요.";
-        }
-      }else{
+      this.nameErrorMsg = "";
+
+      if(!this.isValidEmail()) {
+        this.nameErrorMsg = "이름 입력을 확인해주세요";
+        return;
+      } 
+
+      if(!this.isValidEmail()) {
         this.emailErrorMsg = "이메일 입력을 확인해주세요";
+        return;
+      } 
+
+      if(!this.isValidPassword()){
+        this.passwordErrorMsg = "비밀번호 형식에 맞춰 입력해주세요.";
+        return;
       }
+
+      this.submitWork();
+
     },
     isValidEmail: function(){
       let isValid = true;
