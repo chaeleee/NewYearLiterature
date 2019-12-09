@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import party.of.newyearliterature.role.Role;
@@ -24,6 +25,7 @@ import party.of.newyearliterature.role.Role;
 @Getter
 @Entity
 @Table(name="tbl_user")
+@EqualsAndHashCode(of = {"id"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import party.of.newyearliterature.user.User;
@@ -26,6 +27,7 @@ import party.of.newyearliterature.user.User;
 @Getter
 @Entity
 @Table(name = "tbl_work")
+@EqualsAndHashCode(of={"id"})
 public class Work {
 
     @Id
@@ -52,6 +54,13 @@ public class Work {
 
     public Work(){}
     public Work(String article, String author, User user){
+        this.article = article;
+        this.author = author;
+        this.user = user;
+    }
+
+    public Work(Long id, String article, String author, User user){
+        this.id = id;
         this.article = article;
         this.author = author;
         this.user = user;
