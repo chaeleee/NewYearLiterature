@@ -15,7 +15,5 @@ import lombok.Data;
 public class LikeDto {
 
     private Long id;
-    private Long userId;
-    private Long workId;
-    private Long createdAt;
+
 }

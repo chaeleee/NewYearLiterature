@@ -14,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.work.Work;
 
@@ -21,7 +22,7 @@ import party.of.newyearliterature.work.Work;
  * Like
  */
 @Entity
-@Getter
+@Getter @Setter
 @Table(name="tbl_like")
 @EqualsAndHashCode(of={"id"})
 public class Like {

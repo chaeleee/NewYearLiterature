@@ -5,7 +5,7 @@ package party.of.newyearliterature.like;
  */
 public interface LikeService {
 
-    Like save(Like like);
-    Like delete(long id);
+    LikeDto save(LikeCreateDto like);
+    LikeDto delete(long id);
 
 }

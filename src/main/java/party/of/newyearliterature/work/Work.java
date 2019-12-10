@@ -23,7 +23,7 @@ import party.of.newyearliterature.user.User;
 /**
  * Work
  */
-@Setter(value = AccessLevel.PACKAGE)
+@Setter
 @Getter
 @Entity
 @Table(name = "tbl_work")
