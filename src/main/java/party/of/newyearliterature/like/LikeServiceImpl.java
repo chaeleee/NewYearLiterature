@@ -34,8 +34,15 @@ public class LikeServiceImpl implements LikeService{
 
     @Override
     public LikeDto delete(long id) {
-        // TODO Auto-generated method stub
-        return null;
+
+        Like like = likeRepository.findById(id).get();
+
+        LikeDto likeDto = new LikeDto();
+        likeDto.setId(id);
+        likeDto.setUserId(like.getUser().getId());
+        likeDto.setWorkId(1L);
+        likeDto.setUsername(like.getUser().getName());
+        return likeDto;
     }
 
     

@@ -1,7 +1,6 @@
 package party.of.newyearliterature.like;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -39,31 +38,61 @@ public class LikeServiceTest {
     }
 
     @Test
-    public void Given_Like_When_Save_Then_LikeDto(){
+    public void saveTest(){
+        Given_LikeCreateDto_When_Save_Then_LikeDto(1L, "john", 1L);
+        Given_LikeCreateDto_When_Save_Then_LikeDto(1L, "john", 2L);
+        Given_LikeCreateDto_When_Save_Then_LikeDto(2L, "john", 2L);
+        Given_LikeCreateDto_When_Save_Then_LikeDto(2L, "jane", 2L);
+    }
+
+    public void Given_LikeCreateDto_When_Save_Then_LikeDto(long workId, String username, long likeId){
         // given
 
         Work work = new Work();
-        work.setId(1L);
+        work.setId(workId);
 
         LikeCreateDto likeCreateDto = new LikeCreateDto();
-        likeCreateDto.setWorkId(work.getId());
-        likeCreateDto.setUsername("john");
+        likeCreateDto.setWorkId(workId);
+        likeCreateDto.setUsername(username);
 
         Like like = new Like();
-        like.setId(2L);
+        like.setId(likeId);
 
         when(likeRepository.save(any())).thenReturn(like);
         when(workRepository.findById(any())).thenReturn(Optional.of(work));
         // when
-        LikeDto saved = likeService.save(likeCreateDto);
+        LikeDto likeDto = likeService.save(likeCreateDto);
         // then
-        assertNotNull(saved);
-        assertEquals(like.getId(), saved.getId());
+        assertEquals(like.getId(), likeDto.getId());
     }
 
-
     @Test
-    public void Given_LikeId_When_Delete_Then_Like(){
+    public void deleteLikeTest(){
+        Given_LikeId_When_Delete_Then_Like(1L, "username", 1L, 1L);
+        Given_LikeId_When_Delete_Then_Like(2L, "username", 1L, 1L);
+        
+        Given_LikeId_When_Delete_Then_Like(1L, "john", 1L, 1L);
+        // TODO: delete test
+    }
+
+    public void Given_LikeId_When_Delete_Then_Like(Long likeId, String username, Long userId, Long workId){
+        // given
+        User user = new User();
+        user.setId(userId);
+        user.setName(username);
+
+        Like like = new Like();
+        like.setUser(user);
+        when(likeRepository.findById(likeId)).thenReturn(Optional.of(like));
+
+        // when
+        LikeDto likeDto = likeService.delete(likeId);
+
+        // then
+        assertEquals(likeId, likeDto.getId());
+        assertEquals(username, likeDto.getUsername());
+        assertEquals(userId, likeDto.getUserId());
+        assertEquals(workId, likeDto.getWorkId());
         
     }
 
