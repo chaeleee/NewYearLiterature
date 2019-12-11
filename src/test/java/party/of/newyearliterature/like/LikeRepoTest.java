@@ -58,4 +58,23 @@ public class LikeRepoTest {
         assertEquals(user, like.getUser());
         assertEquals(work, like.getWork());
     }
+
+    @Test
+    public void Given_Like_When_Delete_Then_LikeIsNotNull(){
+        User user = new User("email", "name");
+        entityManager.persist(user);
+        Work work = new Work("article", "author", user);
+        entityManager.persist(work);
+        Like like = new Like(user, work);
+        entityManager.persist(like);
+
+        // when
+        likeRepository.delete(like);
+
+        assertNotNull(like);
+        assertNotNull(like.getId());
+        assertEquals(user, like.getUser());
+        assertEquals(work, like.getWork());
+
+    }
 }

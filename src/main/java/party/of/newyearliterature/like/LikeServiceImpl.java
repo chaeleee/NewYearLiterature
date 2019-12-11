@@ -37,6 +37,8 @@ public class LikeServiceImpl implements LikeService{
 
         Like like = likeRepository.findById(id).get();
 
+        likeRepository.delete(like);
+
         LikeDto likeDto = new LikeDto();
         likeDto.setId(id);
         likeDto.setUserId(like.getUser().getId());

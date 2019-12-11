@@ -72,7 +72,6 @@ public class LikeServiceTest {
         Given_LikeId_When_Delete_Then_Like(2L, "username", 1L, 1L);
         
         Given_LikeId_When_Delete_Then_Like(1L, "john", 1L, 1L);
-        // TODO: delete test
     }
 
     public void Given_LikeId_When_Delete_Then_Like(Long likeId, String username, Long userId, Long workId){
@@ -93,7 +92,8 @@ public class LikeServiceTest {
         assertEquals(username, likeDto.getUsername());
         assertEquals(userId, likeDto.getUserId());
         assertEquals(workId, likeDto.getWorkId());
-        
     }
+
+    
 
 }
