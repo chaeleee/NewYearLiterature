@@ -10,5 +10,5 @@ import lombok.Setter;
 public class LikeCreateDto {
 
     private String username;
-    private long workId;
+    private Long workId;
 }

@@ -2,6 +2,7 @@ package party.of.newyearliterature.like;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,8 +60,10 @@ public class LikeRepoTest {
         assertEquals(work, like.getWork());
     }
 
+
     @Test
-    public void Given_Like_When_Delete_Then_LikeIsNotNull(){
+    public void Delete_Like_Test(){
+        // Given
         User user = new User("email", "name");
         entityManager.persist(user);
         Work work = new Work("article", "author", user);
@@ -68,13 +71,15 @@ public class LikeRepoTest {
         Like like = new Like(user, work);
         entityManager.persist(like);
 
+        Given_Like_When_Delete_Then_FindLikeIsNull(like);
+
+    }
+
+    public void Given_Like_When_Delete_Then_FindLikeIsNull(Like like){
         // when
         likeRepository.delete(like);
-
-        assertNotNull(like);
-        assertNotNull(like.getId());
-        assertEquals(user, like.getUser());
-        assertEquals(work, like.getWork());
-
+        Like persist = entityManager.find(Like.class, like.getId());
+        // then
+        assertNull(persist);
     }
 }
