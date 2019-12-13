@@ -67,8 +67,7 @@ public class LikeControllerTest {
         // when
         mvc.perform(MockMvcRequestBuilders.delete("/api/like/"+likeId))
         // then
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id", is(likeId.intValue())));
+            .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 
