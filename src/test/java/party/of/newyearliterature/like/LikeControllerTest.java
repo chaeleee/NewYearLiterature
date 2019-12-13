@@ -54,7 +54,21 @@ public class LikeControllerTest {
         // then
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.id", is(notNullValue())));
-        
+    }
+
+    @WithMockUser
+    @Test
+    public void Delete_Like_Test() throws Exception{
+        // given
+        Long likeId = 1L;
+        LikeDto likeDto = new LikeDto();
+        likeDto.setId(likeId);
+        when(likeService.delete(likeId)).thenReturn(likeDto);
+        // when
+        mvc.perform(MockMvcRequestBuilders.delete("/api/like/"+likeId))
+        // then
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id", is(likeId.intValue())));
     }
 
 

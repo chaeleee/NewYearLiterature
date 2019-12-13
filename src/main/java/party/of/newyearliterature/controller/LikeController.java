@@ -1,5 +1,7 @@
 package party.of.newyearliterature.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,5 +22,10 @@ public class LikeController {
     @PostMapping("/api/like")
     public LikeDto save(LikeCreateDto likeCreateDto){
         return likeService.save(likeCreateDto);
+    }
+
+    @DeleteMapping("/api/like/{id}")
+    public LikeDto delete(@PathVariable Long id){
+        return likeService.delete(id);
     }
 }
