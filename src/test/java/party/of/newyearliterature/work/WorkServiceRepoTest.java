@@ -24,9 +24,12 @@ public class WorkServiceRepoTest {
     @Test public void 작업과유저등록_작업과유저ID반환(){
         // Given
         UserDto userDto = UserDto.builder().email("email").name("name").password("password").build();
-        WorkDto workDto = new WorkDto("article","author", userDto);
+        WorkCreateDto workCreateDto = new WorkCreateDto();
+        workCreateDto.setArticle("article");
+        workCreateDto.setAuthor("author");
+        workCreateDto.setUserDto(userDto);
         // When
-        WorkDto resDto = workService.submit(workDto);
+        WorkDto resDto = workService.submit(workCreateDto);
         // Then
         assertFalse(Objects.isNull(resDto.getId()));
         assertFalse(Objects.isNull(resDto.getUserDto().getId()));

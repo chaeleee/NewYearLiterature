@@ -25,12 +25,12 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     @Transactional
-    public WorkDto submit(WorkDto workDto) {
-        validate(workDto);
+    public WorkDto submit(WorkCreateDto workCreateDto) {
+        validate(workCreateDto);
         
-        User user = userService.signUp(workDto.getUserDto());
+        User user = userService.signUp(workCreateDto.getUserDto());
 
-        Work work = WorkMapper.map(workDto, false);
+        Work work = WorkMapper.map(workCreateDto);
         work.setUser(user);
         work = repository.save(work);
         
@@ -62,11 +62,11 @@ public class WorkServiceImpl implements WorkService {
         return null;
     }
 
-    private void validate(WorkDto workDto){
-        if(workDto.getArticle().isBlank() || workDto.getAuthor().isBlank()){
+    private void validate(WorkCreateDto workCreateDto){
+        if(workCreateDto.getArticle().isBlank() || workCreateDto.getAuthor().isBlank()){
             throw new BadRequestException("본문과 작명이 비어있습니다");
         }
-        if(Objects.isNull(workDto.getUserDto())){
+        if(Objects.isNull(workCreateDto.getUserDto())){
             throw new BadRequestException("유저 정보가 없습니다.");
         }
     }

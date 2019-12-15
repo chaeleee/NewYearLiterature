@@ -57,7 +57,7 @@ public class WorkServiceTest {
         work.setCreatedAt(LocalDateTime.ofEpochSecond(System.currentTimeMillis(), 0, ZoneOffset.UTC));
         work.setUser(user);
 
-        WorkDto dto = new WorkDto();
+        WorkCreateDto dto = new WorkCreateDto();
         // dto.setId(work.getId());
         dto.setArticle(work.getArticle());
         dto.setAuthor(work.getAuthor());
@@ -91,7 +91,7 @@ public class WorkServiceTest {
         work.setCreatedAt(LocalDateTime.ofEpochSecond(System.currentTimeMillis(), 0, ZoneOffset.UTC));
         work.setUser(user);
 
-        WorkDto dto = new WorkDto();
+        WorkCreateDto dto = new WorkCreateDto();
         // dto.setId(work.getId());
         dto.setArticle(work.getArticle());
         dto.setAuthor(work.getAuthor());
@@ -109,7 +109,7 @@ public class WorkServiceTest {
     // 유저정보 미입력, 작품제출, 잘못된 요청 반환
     @Test(expected = BadRequestException.class)
     public void UserIsNull_Submit_Return_BadReuqestException(){
-        WorkDto dto = new WorkDto();
+        WorkCreateDto dto = new WorkCreateDto();
         dto.setArticle("article");
         dto.setAuthor("author");
         dto.setUserDto(null);
@@ -137,7 +137,7 @@ public class WorkServiceTest {
         work.setCreatedAt(LocalDateTime.ofEpochSecond(System.currentTimeMillis(), 0, ZoneOffset.UTC));
         work.setUser(user);
 
-        WorkDto dto = new WorkDto();
+        WorkCreateDto dto = new WorkCreateDto();
         dto.setArticle(work.getArticle());
         dto.setAuthor(work.getAuthor());
         dto.setUserDto(userDto);     
