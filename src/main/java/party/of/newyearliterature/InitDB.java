@@ -28,16 +28,16 @@ public class InitDB implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Role admin = new Role("admin");
-        admin = roleRepository.save(admin);
+        Role adminRole = new Role("admin");
+        adminRole = roleRepository.save(adminRole);
         
-        Role user = new Role("user");
-        user = roleRepository.save(user);
+        Role userRole = new Role("user");
+        userRole = roleRepository.save(userRole);
 
-        User user1 = new User("user@of.com", passwordEncoder.encode("password"), "user1", user);
+        User user1 = new User("user@of.com", passwordEncoder.encode("password"), "user1", userRole);
         userRepository.save(user1);
 
-        User admin1 = new User("admin@of.com",  passwordEncoder.encode("admin"), "admin1", admin);
+        User admin1 = new User("admin@of.com",  passwordEncoder.encode("admin"), "admin1", adminRole);
         userRepository.save(admin1);
     }
 
