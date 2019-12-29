@@ -53,7 +53,7 @@ public class WorkControllerTest {
         when(workService.submit(workCreateDto)).thenReturn(workDto);
 
         // when
-        mvc.perform(MockMvcRequestBuilders.post("/api/work")
+        mvc.perform(MockMvcRequestBuilders.post("/api/works")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
         .content(content))
         // then

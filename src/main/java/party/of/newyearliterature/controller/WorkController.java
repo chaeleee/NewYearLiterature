@@ -22,7 +22,7 @@ public class WorkController {
 
     private final WorkService workService;
 
-    @PostMapping("/api/work")
+    @PostMapping("/api/works")
     public WorkDto submit(@RequestBody WorkCreateDto workCreateDto){
         return workService.submit(workCreateDto);
     }

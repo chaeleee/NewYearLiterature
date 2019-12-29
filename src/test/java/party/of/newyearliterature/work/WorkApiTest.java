@@ -49,7 +49,7 @@ public class WorkApiTest {
         HttpEntity<WorkDto> requestEntity = new HttpEntity<WorkDto>(workDto, headers);
 
         // when
-        ResponseEntity<WorkDto> response = restTemplate.postForEntity("http://localhost:"+port+"/api/work", requestEntity, WorkDto.class);
+        ResponseEntity<WorkDto> response = restTemplate.postForEntity("http://localhost:"+port+"/api/works", requestEntity, WorkDto.class);
 
         // then
         WorkDto resWorkDto = response.getBody();
@@ -78,7 +78,7 @@ public class WorkApiTest {
         // when
         ResponseEntity<String> response = restTemplate
                                             .withBasicAuth("admin@of.com", "admin")
-                                            .postForEntity("http://localhost:"+port+"/api/work", request, String.class);
+                                            .postForEntity("http://localhost:"+port+"/api/works", request, String.class);
         
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

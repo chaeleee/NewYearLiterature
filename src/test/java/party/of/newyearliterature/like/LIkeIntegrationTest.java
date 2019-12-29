@@ -80,15 +80,16 @@ public class LIkeIntegrationTest {
         like.setUser(user);
         like.setWork(work);
         like = likeRepsitory.save(like);
-        // 
+        
         RequestEntity<?> requestEntity = RequestEntity
             .delete(new URI("http://localhost:"+port+"/api/like/"+like.getId()))
             .accept(MediaType.APPLICATION_JSON_UTF8)
             .build();
+        // when 
         ResponseEntity<String> responseEntity = this.restTemplate
             .withBasicAuth("user@of.com", "password")
             .exchange(requestEntity, String.class);
-        
+        // then
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 }
