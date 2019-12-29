@@ -2,6 +2,7 @@ package party.of.newyearliterature.work;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -38,8 +39,14 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public List<WorkDto> getAll(Sort sort) {
-        return null;
+    public List<WorkDto> getAll(String author, Sort sort) {
+        if(Objects.isNull(author)) author = "";
+        List<Work> works = repository.findByAuthorContaining(author, sort);
+        return works.stream()
+            .map(work->{
+                return WorkMapper.map(work, true);
+            })
+            .collect(Collectors.toList());
     }
 
     @Override

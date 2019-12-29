@@ -73,7 +73,7 @@ var WorkSubmit = {
   data(){
     return {
       host: 'http://localhost:8080',
-      uri: '/api/work',
+      uri: '/api/works',
       user:{
         name: '',
         email: '',
@@ -216,6 +216,19 @@ var WorkCanvas = {
   },
 }
 
+var WorkList = {
+  props:{
+    'works': Array
+  },
+  data(){
+    return {
+    }
+  },
+  mounted() {
+
+  },
+}
+
 /**
  * ROOT
  */
@@ -226,6 +239,7 @@ var app = new Vue({
     'work-input': WorkInput,
     'work-submit': WorkSubmit,
     'work-canvas': WorkCanvas,
+    'work-list': WorkList
   },
   data:{
       work:{
@@ -236,6 +250,12 @@ var app = new Vue({
         }
       },
       displayWorkCanvas: false,
+      works: [{id: 0, article: '', author:''}],
+      host: 'http://localhost:8080',
+      workListUri: '/api/works'
+  },
+  created() {
+    this.getWorkList();
   },
   methods: {
     articleInput(articleText){
@@ -258,7 +278,26 @@ var app = new Vue({
     },
     updateWork(work){
       this.work = work;
-    }
+      this.getWorkList();
+    },
+    getWorkList(author, sortt){
+      $.ajax({
+        type: "GET",
+        url: this.host + this.workListUri,
+        data: {
+          author: author,
+          sort: sortt
+        },
+        dataType: 'json',
+      })
+      .done((data)=>{
+        console.log(data);
+        this.works = data;
+      })
+      .fail((err)=>{
+        console.warn(err);
+      })
+    },
   },
   mounted() {
     

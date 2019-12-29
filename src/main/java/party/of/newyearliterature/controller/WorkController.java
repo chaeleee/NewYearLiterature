@@ -1,11 +1,15 @@
 package party.of.newyearliterature.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +32,14 @@ public class WorkController {
     }
 
     @GetMapping("/api/works")
-    public List<WorkDto> getWorksAll(Sort sort){
-        return workService.getAll(sort);
+    public List<WorkDto> getWorksAll(
+        @RequestParam(required = false, defaultValue = "") String author, 
+        @SortDefault(value = "createdAt", direction = Direction.DESC) Sort sort){
+
+        return workService.getAll(author, sort).stream().map(work->{
+            String article = work.getArticle();
+            work.setArticle(article.replaceAll("\n", "<br />"));
+            return work;
+        }).collect(Collectors.toList());
     }
 }

@@ -10,6 +10,8 @@ import party.of.newyearliterature.role.Role;
 import party.of.newyearliterature.role.RoleRepository;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserRepository;
+import party.of.newyearliterature.work.Work;
+import party.of.newyearliterature.work.WorkRepository;
 
 /**
  * InitDB
@@ -26,6 +28,9 @@ public class InitDB implements ApplicationRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private WorkRepository workRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Role adminRole = new Role("admin");
@@ -39,6 +44,17 @@ public class InitDB implements ApplicationRunner {
 
         User admin1 = new User("admin@of.com",  passwordEncoder.encode("admin"), "admin1", adminRole);
         userRepository.save(admin1);
+
+        Work work1 = new Work("떡볶이 먹고 싶은 밤\n 밤밤밤", "불금", user1);
+        Work work2 = new Work("떡볶이 먹고 싶은 밤", "불금", user1);
+        Work work3 = new Work("떡볶이 먹고 싶은 밤", "불금", user1);
+        Work work4 = new Work("떡볶이 먹고 싶은 밤", "불금", user1);
+        Work work5 = new Work("떡볶이 먹고 싶은 밤", "불금", user1);
+        workRepository.save(work1);
+        workRepository.save(work2);
+        workRepository.save(work3);
+        workRepository.save(work4);
+        workRepository.save(work5);
     }
 
     

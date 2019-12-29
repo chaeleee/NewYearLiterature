@@ -1,5 +1,13 @@
 package party.of.newyearliterature.work;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Test;
@@ -15,13 +23,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import party.of.newyearliterature.controller.WorkController;
 import party.of.newyearliterature.security.MyUserDetailsService;
-
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * WorkControllerTest
@@ -71,10 +72,10 @@ public class WorkControllerTest {
         work1.setAuthor("author1");
         works.add(work1);
 
-        when(workService.getAll(any())).thenReturn(works);
-        // When
+        when(workService.getAll(any(), any())).thenReturn(works);
+    
         mvc.perform(MockMvcRequestBuilders.get("/api/works")
-        .param("sort", "createdAt,desc"))
+        .param("sort", "id,desc"))
         // Then
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", is(work1.getId().intValue())))

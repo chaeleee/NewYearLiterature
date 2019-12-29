@@ -64,4 +64,11 @@ public class Work {
         this.author = author;
         this.user = user;
     }
+    public Work(Long id, String article, String author, LocalDateTime createdAt, User user){
+        this.id = id;
+        this.article = article;
+        this.author = author;
+        this.createdAt = createdAt;
+        this.user = user;
+    }
 }

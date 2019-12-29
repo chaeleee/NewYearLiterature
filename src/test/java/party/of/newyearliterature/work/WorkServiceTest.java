@@ -6,6 +6,8 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -147,6 +149,28 @@ public class WorkServiceTest {
         // When
        service.submit(dto);
 
+    }
+
+    @Test
+    public void getWorksTest(){
+        // given
+        List<Work> persists = new ArrayList<>();
+        // Sort sort = new Sort(Direction.DESC, "createdAt");
+        LocalDateTime now = LocalDateTime.now();
+        persists.add(new Work(3L, "article3", "author3", now.plusHours(2L), null));
+        persists.add(new Work(2L, "article2", "author2", now.plusHours(1L), null));
+        persists.add(new Work(1L, "article1", "author2", now, null));
+        
+        when(workRepo.findByAuthorContaining(any(), any())).thenReturn(persists);
+
+        // when
+        List<WorkDto> works = service.getAll(null, null);
+
+        // then
+        for(int i=0; i<works.size(); i++){
+            assertEquals(persists.get(i).getId(), works.get(i).getId());
+            assertEquals(persists.get(i).getArticle(), works.get(i).getArticle());
+        }
     }
 
 

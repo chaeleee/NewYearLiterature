@@ -26,7 +26,7 @@ public class WorkMapper {
         if(!Objects.isNull(work.getCreatedAt())){
             dto.setCreatedAt(work.getCreatedAt().toEpochSecond(ZoneOffset.UTC));
         }
-        if(isCascade){
+        if(isCascade && !Objects.isNull(work.getUser())){
             dto.setUserDto(UserMapper.map(work.getUser()));
         }
         return dto;
