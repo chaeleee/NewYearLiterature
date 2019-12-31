@@ -61,7 +61,7 @@ public class WorkRepoTest {
     }
 
     @Test
-    public void Given_3Works_When_sortByCreatedDesc_Then_True(){
+    public void Given_3Works_When_sortByCreatedDesc_Then_Sorted(){
 
         // When
         Sort sort = new Sort(Direction.DESC, "createdAt");
@@ -75,7 +75,7 @@ public class WorkRepoTest {
     }
 
     @Test
-    public void Given_3Works_When_sortByCreatedAsc_Then_True(){
+    public void Given_3Works_When_sortByCreatedAsc_Then_Sorted(){
         
         // When
         Sort sort = new Sort(Direction.ASC, "createdAt");
@@ -98,8 +98,5 @@ public class WorkRepoTest {
         assertEquals(1, works.size());
         assertEquals(work2.getAuthor(), works.get(0).getAuthor());
     }
-
-    
-
 
 }

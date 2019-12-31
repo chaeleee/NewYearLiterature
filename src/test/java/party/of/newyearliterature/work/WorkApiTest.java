@@ -1,6 +1,13 @@
 package party.of.newyearliterature.work;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +39,7 @@ public class WorkApiTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void 새유저_작품_제출_작품과유저정보_반환(){
+    public void 새유저_작품_제출_작품과유저정보_반환() {
         // given
         String article = "article-123";
         String author = "author-123";
@@ -45,16 +52,17 @@ public class WorkApiTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        
+
         HttpEntity<WorkDto> requestEntity = new HttpEntity<WorkDto>(workDto, headers);
 
         // when
-        ResponseEntity<WorkDto> response = restTemplate.postForEntity("http://localhost:"+port+"/api/works", requestEntity, WorkDto.class);
+        ResponseEntity<WorkDto> response = restTemplate.postForEntity("http://localhost:" + port + "/api/works",
+                requestEntity, WorkDto.class);
 
         // then
         WorkDto resWorkDto = response.getBody();
         UserDto resUserDto = resWorkDto.getUserDto();
-        
+
         assertEquals(article, resWorkDto.getArticle());
         assertEquals(author, resWorkDto.getAuthor());
         assertEquals(email, resUserDto.getEmail());
@@ -62,7 +70,7 @@ public class WorkApiTest {
     }
 
     @Test
-    public void None_User_submit_BadRequest_test(){
+    public void None_User_submit_BadRequest_test() {
         // given
         String article = "article-123";
         String author = "author-123";
@@ -70,26 +78,48 @@ public class WorkApiTest {
         WorkDto workDto = new WorkDto();
         workDto.setArticle(article);
         workDto.setAuthor(author);
-        
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<WorkDto> request = new HttpEntity<WorkDto>(workDto, headers);
 
         // when
-        ResponseEntity<String> response = restTemplate
-                                            .withBasicAuth("admin@of.com", "admin")
-                                            .postForEntity("http://localhost:"+port+"/api/works", request, String.class);
-        
+        ResponseEntity<String> response = restTemplate.withBasicAuth("admin@of.com", "admin")
+                .postForEntity("http://localhost:" + port + "/api/works", request, String.class);
+
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
-    public void getWorksTest(){
-        
+    public void Given_CreatedAtDesc_When_GetWork_Then_WorkDtos() {
+        // Given
+        String sort = "createdAt,desc";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, String> uriVariables = new HashMap<>();
+        uriVariables.put("sort", sort);
+
+        // When
+        ResponseEntity<String> response = restTemplate.withBasicAuth("user@of.com", "password")
+                .getForEntity("http://localhost:" + port + "/api/works?sort={sort}", String.class, uriVariables);
+
+        // Then
+        ObjectMapper mapper = new ObjectMapper();
+        WorkDto[] works = new WorkDto[0];
+        try {
+            works = mapper.readValue(response.getBody(), WorkDto[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(works.length > 0);
+        for(int i=0; i<works.length-1; i++){
+            assertTrue("정렬이 맞지 않습니다."
+                , works[i].getCreatedAt() >= works[i+1].getCreatedAt());
+        }
     }
 
-    public void sortTest(){
-
-    }
 }
