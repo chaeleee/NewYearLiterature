@@ -96,9 +96,6 @@ public class WorkApiTest {
         // Given
         String sort = "createdAt,desc";
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
         Map<String, String> uriVariables = new HashMap<>();
         uriVariables.put("sort", sort);
 

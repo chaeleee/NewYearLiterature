@@ -1,6 +1,8 @@
 package party.of.newyearliterature.controller;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
@@ -34,11 +36,17 @@ public class WorkController {
     @GetMapping("/api/works")
     public List<WorkDto> getWorksAll(
         @RequestParam(required = false, defaultValue = "") String author, 
-        @SortDefault(value = "createdAt", direction = Direction.DESC) Sort sort){
+        @SortDefault(value = "createdAt", direction = Direction.DESC) Sort sort,
+        Principal principal){
 
-        return workService.getAll(author, sort).stream().map(work->{
+        String loginUserEmail = null;
+        if(!Objects.isNull(principal)) loginUserEmail = principal.getName();
+            
+        return workService.getAll(author, sort, loginUserEmail).stream()
+        .map(work->{
             String article = work.getArticle();
-            work.setArticle(article.replaceAll("\n", "<br />"));
+            if(!Objects.isNull(work.getArticle()))
+                work.setArticle(article.replaceAll("\n", "<br />"));
             return work;
         }).collect(Collectors.toList());
     }

@@ -3,6 +3,7 @@ package party.of.newyearliterature.work;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -72,7 +74,7 @@ public class WorkControllerTest {
         work1.setAuthor("author1");
         works.add(work1);
 
-        when(workService.getAll(any(), any())).thenReturn(works);
+        when(workService.getAll(any(), any(), any())).thenReturn(works);
     
         mvc.perform(MockMvcRequestBuilders.get("/api/works")
         .param("sort", "id,desc"))
@@ -81,5 +83,23 @@ public class WorkControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", is(work1.getId().intValue())))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].article", is(work1.getArticle())))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].author", is(work1.getAuthor())));
+    }
+
+    @WithMockUser(username = "user@of.com")
+    @Test
+    public void Given_Auth_When_GetAll_Then_isLIked() throws Exception{
+        // Given
+        WorkDto workDto = new WorkDto();
+        workDto.setIsLiked(true);
+        List<WorkDto> dtos = new ArrayList<>();
+        dtos.add(workDto);
+
+        when(workService.getAll(any(), any(), eq("user@of.com"))).thenReturn(dtos);
+
+        // When
+        mvc.perform(MockMvcRequestBuilders.get("/api/works"))
+        // Then
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$[0].isLiked", is(workDto.getIsLiked().booleanValue())));
     }
 }

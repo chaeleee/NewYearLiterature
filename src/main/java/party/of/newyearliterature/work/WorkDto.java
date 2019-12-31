@@ -24,6 +24,8 @@ public class WorkDto {
     @JsonProperty("user")
     private UserDto userDto;
     private String award;
+    private Integer numOfLikes;
+    private Boolean isLiked;
     private Long createdAt;
     
 

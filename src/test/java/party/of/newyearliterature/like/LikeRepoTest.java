@@ -3,6 +3,9 @@ package party.of.newyearliterature.like;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,7 +77,8 @@ public class LikeRepoTest {
         Given_Like_When_Delete_Then_FindLikeIsNull(like);
 
     }
-
+    
+    // TODO: FIXED IT
     public void Given_Like_When_Delete_Then_FindLikeIsNull(Like like){
         // when
         likeRepository.delete(like);
@@ -82,4 +86,29 @@ public class LikeRepoTest {
         // then
         assertNull(persist);
     }
+
+    @Test
+    public void Given_Likes_When_FindByWorkId_Then_Likes(){
+        // Given
+        User workAuthor = new User("email", "name", "password");
+        entityManager.persist(workAuthor);
+        Work work1 = new Work("article1", "author2", workAuthor);
+        work1 = entityManager.persist(work1);
+
+        User likeUser1 = new User("like@email.com", "likeUser1", "password");
+        likeUser1 = entityManager.persist(likeUser1);
+        Like like1 = new Like(likeUser1, work1);
+        like1 = entityManager.persist(like1);
+
+        // When
+        List<Like> likes = likeRepository.findByWorkId(work1.getId());
+        
+        // Then
+        Like like = likes.get(0);
+        assertEquals(1, likes.size());
+        assertTrue(like1.equals(like));
+        assertTrue(work1.equals(like.getWork()));
+        assertTrue(likeUser1.equals(like.getUser()));
+    }
+    
 }

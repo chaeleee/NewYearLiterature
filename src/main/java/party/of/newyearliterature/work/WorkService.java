@@ -11,7 +11,7 @@ public interface WorkService {
     
     WorkDto submit(WorkCreateDto workCreateDto);
 
-    List<WorkDto> getAll(String author, Sort sort);
+    List<WorkDto> getAll(String author, Sort sort, String loginUserEmail);
 
     List<WorkDto> getByUser(WorkDto workDto);
 

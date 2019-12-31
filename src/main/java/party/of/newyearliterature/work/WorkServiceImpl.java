@@ -1,8 +1,8 @@
 package party.of.newyearliterature.work;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import party.of.newyearliterature.exception.BadRequestException;
+import party.of.newyearliterature.like.Like;
+import party.of.newyearliterature.like.LikeRepository;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserService;
 
@@ -23,6 +25,7 @@ public class WorkServiceImpl implements WorkService {
 
     private final WorkRepository repository;
     private final UserService userService;
+    private final LikeRepository likeRepository;
 
     @Override
     @Transactional
@@ -39,14 +42,27 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public List<WorkDto> getAll(String author, Sort sort) {
+    public List<WorkDto> getAll(String author, Sort sort, String loginUserEmail) {
         if(Objects.isNull(author)) author = "";
         List<Work> works = repository.findByAuthorContaining(author, sort);
-        return works.stream()
-            .map(work->{
-                return WorkMapper.map(work, true);
-            })
-            .collect(Collectors.toList());
+        List<WorkDto> workDtos = new ArrayList<>();
+        for(Work work : works){
+            WorkDto dto = WorkMapper.map(work, true);
+            List<Like> likes = likeRepository.findByWorkId(dto.getId());
+            boolean isLiked = getIsLiked(likes, loginUserEmail);
+            dto.setIsLiked(isLiked);
+            dto.setNumOfLikes(likes.size());
+            workDtos.add(dto);
+        }
+        return workDtos;
+    }
+
+    private boolean getIsLiked(List<Like> likes, String loginUserEmail) {
+        for(Like like : likes){
+            if(like.getUser().getEmail().equals(loginUserEmail))
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -78,7 +94,4 @@ public class WorkServiceImpl implements WorkService {
         }
     }
 
-    
-
-    
 }

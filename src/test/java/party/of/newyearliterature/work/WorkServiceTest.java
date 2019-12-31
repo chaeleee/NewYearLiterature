@@ -18,6 +18,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import party.of.newyearliterature.exception.BadRequestException;
+import party.of.newyearliterature.like.Like;
+import party.of.newyearliterature.like.LikeRepository;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserDto;
 import party.of.newyearliterature.user.UserService;
@@ -31,11 +33,17 @@ public class WorkServiceTest {
 
     private WorkService service;
 
-    @MockBean private WorkRepository workRepo;
-    @Autowired private UserService userService;
+    @MockBean 
+    private WorkRepository workRepo;
+    
+    @MockBean 
+    private LikeRepository likeRepo;
+    
+    @Autowired 
+    private UserService userService;
 
     @Before public void setup(){
-        service = new WorkServiceImpl(workRepo, userService);
+        service = new WorkServiceImpl(workRepo, userService, likeRepo);
     }
 
     @Test public void WorkAndUser_Submit_Return_WorkAndUser(){
@@ -154,24 +162,54 @@ public class WorkServiceTest {
     @Test
     public void getWorksTest(){
         // given
+        Work work = new Work(1L, "article1", "author2", null, null);
         List<Work> persists = new ArrayList<>();
-        // Sort sort = new Sort(Direction.DESC, "createdAt");
-        LocalDateTime now = LocalDateTime.now();
-        persists.add(new Work(3L, "article3", "author3", now.plusHours(2L), null));
-        persists.add(new Work(2L, "article2", "author2", now.plusHours(1L), null));
-        persists.add(new Work(1L, "article1", "author2", now, null));
-        
+        persists.add(work);
         when(workRepo.findByAuthorContaining(any(), any())).thenReturn(persists);
 
+        User likedUser = new User("user@of.com", "user");
+        Like likeForWork1 = new Like(likedUser, work);
+        List<Like> likesForWork1 = new ArrayList<>();
+        likesForWork1.add(likeForWork1);
+        when(likeRepo.findByWorkId(work.getId())).thenReturn(likesForWork1);
+
         // when
-        List<WorkDto> works = service.getAll(null, null);
+        List<WorkDto> workDtos = service.getAll(null, null, null);
 
         // then
-        for(int i=0; i<works.size(); i++){
-            assertEquals(persists.get(i).getId(), works.get(i).getId());
-            assertEquals(persists.get(i).getArticle(), works.get(i).getArticle());
-        }
+        WorkDto workDto = workDtos.get(0);
+        assertEquals(work.getId(), workDto.getId());
+        assertEquals(work.getArticle(), workDto.getArticle());
+        assertEquals(likesForWork1.size(), workDto.getNumOfLikes().intValue());
     }
 
+    @Test
+    public void getWorksByLoginUser(){
+        // given
+        Work work = new Work(1L, "article1", "author2", null, null);
+        List<Work> persists = new ArrayList<>();
+        persists.add(work);
+        when(workRepo.findByAuthorContaining(any(), any())).thenReturn(persists);
+
+        User likedUser = new User("user@of.com", "user");
+        Like likeForWork1 = new Like(likedUser, work);
+        List<Like> likesForWork1 = new ArrayList<>();
+        likesForWork1.add(likeForWork1);
+        when(likeRepo.findByWorkId(work.getId())).thenReturn(likesForWork1);
+
+        // When & Then
+        When_getAll_Then_isLiked(likedUser.getEmail(), true);
+        When_getAll_Then_isLiked(null, false);
+
+    }
+
+    private void When_getAll_Then_isLiked(String loginUserEmail, boolean expectedIsLiked){
+        // when
+        List<WorkDto> workDtos = service.getAll(null, null, loginUserEmail);
+
+        // then
+        WorkDto workDto = workDtos.get(0);
+        assertEquals(expectedIsLiked, workDto.getIsLiked());
+    }
 
 }
