@@ -6,6 +6,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import party.of.newyearliterature.like.Like;
+import party.of.newyearliterature.like.LikeRepository;
 import party.of.newyearliterature.role.Role;
 import party.of.newyearliterature.role.RoleRepository;
 import party.of.newyearliterature.user.User;
@@ -31,6 +33,9 @@ public class InitDB implements ApplicationRunner {
     @Autowired
     private WorkRepository workRepository;
 
+    @Autowired
+    private LikeRepository likeRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Role adminRole = new Role("admin");
@@ -55,6 +60,9 @@ public class InitDB implements ApplicationRunner {
         workRepository.save(work3);
         workRepository.save(work4);
         workRepository.save(work5);
+
+        Like like1 = new Like(user1, work1);
+        likeRepository.save(like1);
     }
 
     

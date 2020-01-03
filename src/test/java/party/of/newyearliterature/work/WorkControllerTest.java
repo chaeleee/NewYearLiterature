@@ -43,7 +43,7 @@ public class WorkControllerTest {
     private MyUserDetailsService myUserDetailsService;
 
     @Test
-    public void saveWorkTest() throws Exception{
+    public void Given_WorkCreateDto_When_Submit_Then_WorkDto() throws Exception{
         // given
         WorkCreateDto workCreateDto = new WorkCreateDto();
         workCreateDto.setArticle("article");
@@ -65,7 +65,7 @@ public class WorkControllerTest {
     }
 
     @Test
-    public void getWorksTest() throws Exception{
+    public void Given_Sort_When_GetAll_Then_WorkDtos() throws Exception{
         // Given
         List<WorkDto> works = new ArrayList<>();
         WorkDto work1 = new WorkDto();
@@ -87,7 +87,7 @@ public class WorkControllerTest {
 
     @WithMockUser(username = "user@of.com")
     @Test
-    public void Given_Auth_When_GetAll_Then_isLIked() throws Exception{
+    public void Given_Auth_When_GetAll_Then_isLIked_WorkDto() throws Exception{
         // Given
         WorkDto workDto = new WorkDto();
         workDto.setIsLiked(true);

@@ -2,6 +2,7 @@ package party.of.newyearliterature.work;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import party.of.newyearliterature.exception.BadRequestException;
@@ -210,6 +213,44 @@ public class WorkServiceTest {
         // then
         WorkDto workDto = workDtos.get(0);
         assertEquals(expectedIsLiked, workDto.getIsLiked());
+    }
+
+    @Test
+    public void Given_LikesSort_When_GetAll_Then_WorkDtos_SortedByLikes(){
+        // Given
+        Work work1 = new Work(1L, "article", "author", null);
+        Work work2 = new Work(2L, "article", "author", null);
+        Work work3 = new Work(3L, "article", "author", null);
+        List<Work> works = new ArrayList<>();
+        works.add(work1);
+        works.add(work2);
+        works.add(work3);
+
+        User mockUser = new User("email", "name");
+        Like like1 = new Like(mockUser, null);
+        Like like2 = new Like(mockUser, null);
+        Like like3 = new Like(mockUser, null);
+        List<Like> threeLikes = new ArrayList<>();
+        threeLikes.add(like1);
+        threeLikes.add(like2);
+        threeLikes.add(like3);
+        List<Like> twoLikes = new ArrayList<>();
+        twoLikes.add(like1);
+        twoLikes.add(like2);
+
+        
+        Sort sort = new Sort(Direction.DESC, "likes");
+        when(workRepo.findByAuthorContaining(any(), any())).thenReturn(works);
+        when(likeRepo.findByWorkId(3L)).thenReturn(threeLikes);
+        when(likeRepo.findByWorkId(2L)).thenReturn(twoLikes);
+        
+        // When
+        List<WorkDto> workDtos = service.getAll(null, sort, null);
+
+        // Then
+        assertEquals(work3.getId(), workDtos.get(0).getId());
+        assertEquals(work2.getId(), workDtos.get(1).getId());
+
     }
 
 }

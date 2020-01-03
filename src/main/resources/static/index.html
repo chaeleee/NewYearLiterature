@@ -191,7 +191,7 @@
         </section>
         <!-- 개인정보 입력 모달 -->
         <!-- 작품 제출 컴포넌트 -->
-        <work-submit v-bind:work="work" inline-template v-on:submitwork="updateWork">
+        <work-submit v-bind:work="work" inline-template>
             <div class="modal fade" id="submission" tabindex="-1" role="dialog" aria-labelledby="submissionTitle"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -245,17 +245,16 @@
         </work-submit>
         <!-- 응모작 전시 -->
         <section id="section-6">
-            <div class="container">
-                <div class="title">
-                    <h2 class="main">출품작</h2>
-                </div>
-                <div id="sortBy">
-                    <span v-on:click="getWorkList(null, 'createdAt,desc')">최신순</span> |
-                    <span v-on:click="getWorkList(null, 'createdAt,asc')">오래된순</span> |
-                    <span>추천순</span>
-                </div>
-
-                <work-list v-bind:works="works" inline-template>
+            <work-list inline-template>
+                <div class="container">
+                    <div class="title">
+                        <h2 class="main">출품작</h2>
+                    </div>
+                    <div id="sortBy">
+                        <span v-on:click="getWorkList(null, 'createdAt,desc')">최신순</span> |
+                        <span v-on:click="getWorkList(null, 'createdAt,asc')">오래된순</span> |
+                        <span v-on:click="getWorkList(null, 'likes,desc')">추천순</span>
+                    </div>
                     <article>
                         <div class="row justify-content-md-center">
                             <div class="col-md-5 col-lg-3" v-for="work in works">
@@ -263,7 +262,9 @@
                                     <p class="post" v-html="work.article"></p>
                                     <p class="author">- {{ work.author }} -</p>
                                     <div class="like-box">
-                                        <i class="fa fa-star"></i>
+                                        <i v-show="work.isLiked" class="fa fa-star"></i>
+                                        <i v-show="!work.isLiked" class="fa fa-star-o"></i>
+                                        <span class="numOfLikes">{{ work.numOfLikes }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -275,8 +276,8 @@
                             </ul>
                         </nav>
                     </article>
-                </work-list>
-            </div>
+                </div>
+            </work-list>
         </section>
 
         <!-- Footer -->

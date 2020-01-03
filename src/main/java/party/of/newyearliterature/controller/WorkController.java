@@ -43,11 +43,11 @@ public class WorkController {
         if(!Objects.isNull(principal)) loginUserEmail = principal.getName();
             
         return workService.getAll(author, sort, loginUserEmail).stream()
-        .map(work->{
-            String article = work.getArticle();
-            if(!Objects.isNull(work.getArticle()))
-                work.setArticle(article.replaceAll("\n", "<br />"));
-            return work;
-        }).collect(Collectors.toList());
+            .map(work->{
+                String article = work.getArticle();
+                if(!Objects.isNull(work.getArticle()))
+                    work.setArticle(article.replaceAll("\n", "<br />"));
+                return work;
+            }).collect(Collectors.toList());
     }
 }

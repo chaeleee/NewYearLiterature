@@ -7,6 +7,7 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,16 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public List<WorkDto> getAll(String author, Sort sort, String loginUserEmail) {
+        if(Objects.isNull(loginUserEmail)) loginUserEmail = "";
         if(Objects.isNull(author)) author = "";
-        List<Work> works = repository.findByAuthorContaining(author, sort);
+        if(Objects.isNull(sort)) sort = new Sort(Direction.DESC, "createdAt");
+        List<Work> works = new ArrayList<>();
+        if(isSortByLikes(sort)){
+            works = repository.findByAuthorContaining(author, 
+                new Sort(Direction.DESC, "createdAt"));
+        }else{
+            works = repository.findByAuthorContaining(author, sort);
+        }
         List<WorkDto> workDtos = new ArrayList<>();
         for(Work work : works){
             WorkDto dto = WorkMapper.map(work, true);
@@ -54,7 +63,22 @@ public class WorkServiceImpl implements WorkService {
             dto.setNumOfLikes(likes.size());
             workDtos.add(dto);
         }
+        if(isSortByLikes(sort)){
+            if(sort.getOrderFor("likes").isAscending()){
+                workDtos.sort((WorkDto w1, WorkDto w2)->{
+                    return w1.getNumOfLikes() - w2.getNumOfLikes();
+                });
+            }else{
+                workDtos.sort((WorkDto w1, WorkDto w2)->{
+                    return w2.getNumOfLikes() - w1.getNumOfLikes();
+                });
+            }
+        }
         return workDtos;
+    }
+
+    private boolean isSortByLikes(Sort sort) {
+        return !Objects.isNull(sort.getOrderFor("likes"));
     }
 
     private boolean getIsLiked(List<Like> likes, String loginUserEmail) {

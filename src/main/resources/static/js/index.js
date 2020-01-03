@@ -1,4 +1,10 @@
 'user strict';
+
+/**
+ * 전역 이벤트 관리 인스턴스
+ */
+var eventBus = new Vue();
+
 /**
  * 메인 타이틀
  */
@@ -136,7 +142,10 @@ var WorkSubmit = {
         contentType: 'application/json'
       })
       .done(this.successHandler)
-      .fail(this.failHandler)
+      .fail(this.failHandler);
+      setTimeout(()=>{
+        eventBus.$emit('submitWork');
+      }, 2000);
     },
     successHandler: function(work){
       this.$emit('submitwork', work);
@@ -216,22 +225,50 @@ var WorkCanvas = {
   },
 }
 
+/**
+ * 응모작 전시
+ */
 var WorkList = {
   props:{
-    'works': Array
   },
   data(){
     return {
+      host: 'http://localhost:8080',
+      workListUri: '/api/works',
+      works: [{id: 0, article: '', author:''}],
     }
   },
-  mounted() {
-
+  created() {
+    this.getWorkList();
+    eventBus.$on('submitWork', this.getWorkList);
+  },
+  methods: {
+    getWorkList(author, sortt){
+      $.ajax({
+        type: "GET",
+        url: this.host + this.workListUri,
+        data: {
+          author: author,
+          sort: sortt
+        },
+        dataType: 'json',
+      })
+      .done((data)=>{
+        this.works = data;
+      })
+      .fail((err)=>{
+        console.warn(err);
+      })
+    },
   },
 }
+
+
 
 /**
  * ROOT
  */
+
 var app = new Vue({
   el: '#app',
   components: {
@@ -250,12 +287,8 @@ var app = new Vue({
         }
       },
       displayWorkCanvas: false,
-      works: [{id: 0, article: '', author:''}],
-      host: 'http://localhost:8080',
-      workListUri: '/api/works'
   },
   created() {
-    this.getWorkList();
   },
   methods: {
     articleInput(articleText){
@@ -276,30 +309,9 @@ var app = new Vue({
         this.displayWorkCanvas = true;
       }
     },
-    updateWork(work){
-      this.work = work;
-      this.getWorkList();
-    },
-    getWorkList(author, sortt){
-      $.ajax({
-        type: "GET",
-        url: this.host + this.workListUri,
-        data: {
-          author: author,
-          sort: sortt
-        },
-        dataType: 'json',
-      })
-      .done((data)=>{
-        console.log(data);
-        this.works = data;
-      })
-      .fail((err)=>{
-        console.warn(err);
-      })
-    },
   },
   mounted() {
     
   },
 });
+
