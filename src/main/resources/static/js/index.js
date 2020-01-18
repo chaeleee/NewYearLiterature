@@ -263,6 +263,76 @@ var WorkList = {
   },
 }
 
+/**
+ * 로그인
+ */
+var LoginInput = {
+  props:{
+    loginInfo: Object
+  },
+  data() {
+    return {
+      inputEmail: "user@of.com",
+      inputPassword: "password",
+      host: 'http://localhost:8080',
+      uri: '/api/user/me',
+      logoutUri: '/api/user/logout'
+    }
+  },
+  created() {
+    $.ajax({
+      type: "GET",
+      url: this.host + this.uri,
+      dataType: 'json',
+      contentType: 'application/json'
+    })
+    .done((data)=>{
+      this.$emit('update-login-info', data);
+    })
+    .fail(this.failHandler);
+  },
+  methods: {
+    login(){
+      $.ajax({
+        type: "GET",
+        url: this.host + this.uri,
+        dataType: 'json',
+        contentType: 'application/json',
+        beforeSend: (xhr)=>{
+          xhr.setRequestHeader("Authorization", 
+            "Basic " + btoa(this.inputEmail+":"+this.inputPassword));
+        }
+      })
+      .done((data)=>{
+        this.$emit('update-login-info', data);
+        $('#loginModal').modal('hide');
+      })
+      .fail(this.failHandler);
+    },
+    failHandler(jqXhr, textStatus, errorThrown){
+      // console.log("*** Err jqXhr ***");
+      // console.log(jqXhr);
+      // console.log("*** HTTP Status Code ***");
+      // console.log(jqXhr.status);
+      console.log("로그인 실패");
+    },
+    logout(){
+      $.ajax({
+        type: "GET",
+        url: this.host + this.logoutUri,
+      })
+      .done((data, textStatus, jqXhr)=>{
+        // console.log("로그아웃 성공");
+        // console.log(jqXhr);
+        this.$emit('logout');
+      })
+      .fail((jqXhr, textStatus, errorThrown)=>{
+        // console.log("로그아웃 실패");
+        console.log(jqXhr);
+      });
+    }
+  },
+}
 
 
 /**
@@ -276,7 +346,8 @@ var app = new Vue({
     'work-input': WorkInput,
     'work-submit': WorkSubmit,
     'work-canvas': WorkCanvas,
-    'work-list': WorkList
+    'work-list': WorkList,
+    'login-input': LoginInput
   },
   data:{
       work:{
@@ -287,6 +358,11 @@ var app = new Vue({
         }
       },
       displayWorkCanvas: false,
+      loginInfo:{
+        email: "",
+        name: "",
+        roleName: ""
+      }
   },
   created() {
   },
@@ -309,6 +385,16 @@ var app = new Vue({
         this.displayWorkCanvas = true;
       }
     },
+    onUpdateLoginInfo(data){
+      this.loginInfo.email = data.email;
+      this.loginInfo.name = data.name;
+      this.loginInfo.roleName = data.role.name;
+    },
+    onLogout(){
+      this.loginInfo.email = '';
+      this.loginInfo.name = '';
+      this.loginInfo.roleName = '';
+    }
   },
   mounted() {
     
