@@ -38,7 +38,8 @@ public class TestRestSecurity {
     @MockBean
     private MyUserDetailsService myUserDetailsService;
 
-    private String getUserInfoUrl = "/api/user/me";
+    private String userInfoUrl = "/api/user/me";
+    private String logoutUrl = "/api/user/logout";
 
 
     @Test
@@ -47,28 +48,46 @@ public class TestRestSecurity {
         User user1 = new User("user@of.com", passwordEncoder.encode("password"), "user1", userRole);
         
         Role adminRole = new Role("admin");
-        User admin1 = new User("admin@of.com",  passwordEncoder.encode("admin"), "admin1", adminRole);
+        User admin1 = new User("admin@of.com", passwordEncoder.encode("admin"), "admin1", adminRole);
         when(myUserDetailsService.loadUserByUsername(user1.getEmail())).thenReturn(new MyUserPrincipal(user1));
         when(myUserDetailsService.loadUserByUsername(admin1.getEmail())).thenReturn(new MyUserPrincipal(admin1));
 
-        Given_inValidUser_When_login_Then_UnAuth("annonynous","___");
-        Given_inValidUser_When_login_Then_UnAuth("","");
-        Given_validUser_When_login_Then_OK("admin@of.com", "admin");
-        Given_validUser_When_login_Then_OK("user@of.com", "password");
+        Given_InValidUser_When_login_Then_UnAuth("annonynous","___");
+        Given_InValidUser_When_login_Then_UnAuth("","");
+        Given_ValidUser_When_login_Then_OK("admin@of.com", "admin");
+        Given_ValidUser_When_login_Then_OK("user@of.com", "password");
     }
 
-    private void Given_validUser_When_login_Then_OK(String userEmail, String password){
+    private void Given_ValidUser_When_login_Then_OK(String userEmail, String password){
         ResponseEntity<String> response = this.restTemplate
                                             .withBasicAuth(userEmail, password)
-                                            .getForEntity(getUserInfoUrl, String.class);
+                                            .getForEntity(userInfoUrl, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    private void Given_inValidUser_When_login_Then_UnAuth(String userEmail, String password){
+    private void Given_InValidUser_When_login_Then_UnAuth(String userEmail, String password){
         ResponseEntity<String> response = this.restTemplate
                                             .withBasicAuth(userEmail, password)
-                                            .getForEntity(getUserInfoUrl, String.class);
+                                            .getForEntity(userInfoUrl, String.class); 
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+    }
+
+    @Test
+    public void Given_Login_When_Logout_Then_Principal_is_null(){
+        // Given: Login
+        Role userRole = new Role("user");
+        User user1 = new User("user@of.com", passwordEncoder.encode("password"), "user1", userRole);
+        when(myUserDetailsService.loadUserByUsername(user1.getEmail())).thenReturn(new MyUserPrincipal(user1));
+        this.restTemplate
+            .withBasicAuth(user1.getEmail(), user1.getPassword())
+            .getForEntity(userInfoUrl, String.class);
+
+        // When: Logout
+        ResponseEntity<String> response = this.restTemplate
+            .getForEntity(logoutUrl, String.class);
+        
+        // Then: Principal is null
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
 }
