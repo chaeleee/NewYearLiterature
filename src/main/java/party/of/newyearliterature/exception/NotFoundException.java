@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class NotFoundException extends RuntimeException{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3136099953744358065L;
 
-    public NotFoundException(){
+    public NotFoundException() {
         super();
     }
 

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import party.of.newyearliterature.exception.BadRequestException;
+import party.of.newyearliterature.exception.NotFoundException;
 import party.of.newyearliterature.user.UserDto;
 import party.of.newyearliterature.user.UserService;
 
@@ -26,7 +28,7 @@ public class UserController {
 
     @GetMapping("/api/user/me")
     public UserDto getLoggedUser(Principal principal){
-        // if(Objects.isNull(principal)) throw new UnAuth
+        if(Objects.isNull(principal)) throw new NotFoundException("로그인 정보가 없습니다");
         String email = principal.getName();
         UserDto userDto = new UserDto();
         userDto.setEmail(email);
@@ -35,7 +37,7 @@ public class UserController {
 
     @GetMapping("/api/user/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication auth){
-        if(Objects.isNull(auth)) return; // TODO: Throw BandRequest(인증안됨)
+        if(Objects.isNull(auth)) throw new BadRequestException("로그인 정보가 없습니다");
         new SecurityContextLogoutHandler().logout(request, response, auth);
     }
 
