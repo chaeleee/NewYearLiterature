@@ -61,7 +61,7 @@ var WorkInput = {
       }
     },
     submitClickHandler(){
-      this.$emit('completeInput');
+      this.$emit('complete-input');
     },
   },
   computed: {
@@ -75,7 +75,7 @@ var WorkInput = {
  * 응모 컴포넌트
  */
 var WorkSubmit = {
-  props: ['work'],
+  props: ['work', 'loginInfo'],
   data(){
     return {
       host: 'http://localhost:8080',
@@ -148,7 +148,6 @@ var WorkSubmit = {
       }, 2000);
     },
     successHandler: function(work){
-      this.$emit('submitwork', work);
       alert("소중한 작품 응모 감사합니다");
       $('#submission').modal('hide');
       this.initUserPassword();
@@ -160,6 +159,43 @@ var WorkSubmit = {
       this.user.password = "";
     }
   },
+}
+
+var WorkSubmitLogged = {
+  props: ['work','loginInfo'],
+  data(){
+    return {
+
+    }
+  },
+  methods:{
+    submitWork: function(){
+      let request = {
+        author: this.work.author,
+        article: this.work.article,
+        userEmail: 'null'
+      }
+      $.ajax({
+        type: "POST",
+        url: "/api/works/logged",
+        data: JSON.stringify(request),
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+      .done(this.successHandler)
+      .fail(this.failHandler);
+      setTimeout(()=>{
+        eventBus.$emit('submitWork');
+      }, 2000);
+    },
+    successHandler: function(work){
+      alert("소중한 작품 응모 감사합니다");
+      $('#logged-submission').modal('hide');
+    },
+    failHandler: function(jqXhr, textStatus, errorThrown){
+      alert("Error: " + textStatus + " : " + errorThrown);
+    }
+  }
 }
 
 
@@ -383,6 +419,7 @@ var app = new Vue({
     'main-title': MainTitle,
     'work-input': WorkInput,
     'work-submit': WorkSubmit,
+    'work-submit-logged': WorkSubmitLogged,
     'work-canvas': WorkCanvas,
     'work-list': WorkList,
     'login-input': LoginInput
@@ -412,7 +449,11 @@ var app = new Vue({
       this.work.author = authorText;
     },
     completeInput(){
-      $('#submission').modal('toggle');
+      if(this.loginInfo.email == ''){
+        $('#submission').modal('toggle');
+      }else{
+        $('#logged-submission').modal('toggle');
+      }
     },
     toggleCanvas(){
       if(this.displayWorkCanvas){

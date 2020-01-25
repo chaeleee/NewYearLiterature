@@ -102,4 +102,34 @@ public class WorkControllerTest {
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].isLiked", is(workDto.getIsLiked().booleanValue())));
     }
+
+    @WithMockUser
+    @Test
+    public void Given_LoggedIn_When_Submit_Then_WorkDto() throws Exception {
+        // Given
+        WorkCreateLoggedDto createDto = new WorkCreateLoggedDto();
+        createDto.setArticle("article");
+        createDto.setAuthor("author");
+        createDto.setUserEmail(null);
+
+        String content = new ObjectMapper().writeValueAsString(createDto);
+
+        WorkDto workDto = new WorkDto();
+        workDto.setId(1L);
+        workDto.setArticle(createDto.getArticle());
+        workDto.setAuthor(createDto.getAuthor());
+
+        when(workService.submitLogged(any())).thenReturn(workDto);
+
+        // When Then
+        mvc.perform(
+            MockMvcRequestBuilders.post("/api/works/logged")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content(content)
+        )
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.article", is(workDto.getArticle())))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.author", is(workDto.getAuthor())))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.id", is(workDto.getId().intValue())));
+    }
 }

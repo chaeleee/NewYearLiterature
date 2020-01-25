@@ -3,6 +3,7 @@ package party.of.newyearliterature.work;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import party.of.newyearliterature.exception.BadRequestException;
+import party.of.newyearliterature.exception.NotFoundException;
 import party.of.newyearliterature.like.Like;
 import party.of.newyearliterature.like.LikeRepository;
 import party.of.newyearliterature.user.User;
+import party.of.newyearliterature.user.UserRepository;
 import party.of.newyearliterature.user.UserService;
 
 /**
@@ -27,6 +30,7 @@ public class WorkServiceImpl implements WorkService {
     private final WorkRepository repository;
     private final UserService userService;
     private final LikeRepository likeRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -116,6 +120,18 @@ public class WorkServiceImpl implements WorkService {
         if(Objects.isNull(workCreateDto.getUserDto())){
             throw new BadRequestException("유저 정보가 없습니다.");
         }
+    }
+
+    @Override
+    public WorkDto submitLogged(WorkCreateLoggedDto createDto) {
+        Optional<User> userOpt = userRepository.findByEmail(createDto.getUserEmail());
+        User user = userOpt.orElseThrow(() 
+            -> new NotFoundException("로그인 정보를 찾을 수 없습니다."));
+
+        Work work = WorkMapper.map(createDto, user);
+        work = repository.save(work);
+        WorkDto workDto = WorkMapper.map(work, true);
+        return workDto;
     }
 
 }

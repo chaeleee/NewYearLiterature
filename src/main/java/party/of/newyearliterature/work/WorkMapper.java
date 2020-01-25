@@ -3,6 +3,7 @@ package party.of.newyearliterature.work;
 import java.time.ZoneOffset;
 import java.util.Objects;
 
+import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserMapper;
 
 /**
@@ -41,5 +42,13 @@ public class WorkMapper {
         }
         return work;
     }
+
+	public static Work map(WorkCreateLoggedDto createDto, User user) {
+        Work work = new Work();
+        work.setArticle(createDto.getArticle());
+        work.setAuthor(createDto.getAuthor());
+        work.setUser(user);
+		return work;
+	}
 
 }

@@ -21,4 +21,6 @@ public interface WorkService {
 
     WorkDto update(WorkDto workDto);
 
+	WorkDto submitLogged(WorkCreateLoggedDto createDto);
+
 }

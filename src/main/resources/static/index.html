@@ -204,8 +204,9 @@
                                 </div>
                                 <div id="send-btn-wrapper">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-light" id="send-btn" data-toggle="modal"
-                                        data-target="#submission" v-on:click="submitClickHandler">작성완료</button>
+                                    <!-- <button type="button" class="btn btn-light" id="send-btn" data-toggle="modal"
+                                        data-target="#submission" v-on:click="submitClickHandler">작성완료</button> -->
+                                    <button type="button" class="btn btn-light" id="send-btn" v-on:click="submitClickHandler">작성완료</button>
                                     <button type="button" class="btn btn-light" id="down-toggle-btn"
                                         v-on:click="$emit('toggle-canvas')">
                                         <span v-show="!displayWorkCanvas">다운로드</span>
@@ -287,6 +288,39 @@
                 </div>
             </div>
         </work-submit>
+        <work-submit-logged inline-template v-bind:work="work" v-bind:login-info="loginInfo">
+            <div class="modal fade" id="logged-submission" tabindex="-1" role="dialog" aria-labelledby="submissionTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="submissionTitle">공모전 응모하기</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="submit-form">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">이름</label>
+                                    <input type="text" class="form-control" id="inputUserName" v-model="loginInfo.name" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">이메일</label>
+                                    <input type="email" class="form-control" id="inputUserEmail" v-model="loginInfo.email"
+                                        aria-describedby="emailHelp" disabled>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            <button id="submit-btn" v-on:click="submitWork" type="button"
+                                class="btn btn-primary">응모</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </work-submit-logged>
         <!-- 응모작 전시 -->
         <section id="section-6">
             <work-list inline-template>

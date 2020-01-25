@@ -52,12 +52,11 @@ public class WorkApiTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
         HttpEntity<WorkDto> requestEntity = new HttpEntity<WorkDto>(workDto, headers);
 
         // when
-        ResponseEntity<WorkDto> response = restTemplate.postForEntity("http://localhost:" + port + "/api/works",
-                requestEntity, WorkDto.class);
+        ResponseEntity<WorkDto> response = restTemplate
+            .postForEntity("http://localhost:" + port + "/api/works", requestEntity, WorkDto.class);
 
         // then
         WorkDto resWorkDto = response.getBody();
@@ -67,6 +66,36 @@ public class WorkApiTest {
         assertEquals(author, resWorkDto.getAuthor());
         assertEquals(email, resUserDto.getEmail());
         assertEquals(name, resUserDto.getName());
+    }
+
+    @Test
+    public void Given_Work_When_Save_Return_Work(){
+        // Given
+        String article = "article-123";
+        String author = "author-123";
+        // 초기 데이터
+        String email = "user@of.com";
+        String password = "password";
+
+        WorkCreateLoggedDto createDto = new WorkCreateLoggedDto();
+        createDto.setArticle(article);
+        createDto.setAuthor(author);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<WorkCreateLoggedDto> requestEntity = new HttpEntity<>(createDto, headers);
+        // When
+        ResponseEntity<WorkDto> response = restTemplate
+        .withBasicAuth(email, password)
+        .postForEntity("/api/works/logged", requestEntity, WorkDto.class);
+        // then
+        WorkDto resWorkDto = response.getBody();
+        UserDto resUserDto = resWorkDto.getUserDto();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(article, resWorkDto.getArticle());
+        assertEquals(author, resWorkDto.getAuthor());
+        assertEquals(email, resUserDto.getEmail());
     }
 
     @Test

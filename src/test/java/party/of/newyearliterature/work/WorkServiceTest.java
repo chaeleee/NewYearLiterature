@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
@@ -24,6 +24,7 @@ import party.of.newyearliterature.like.Like;
 import party.of.newyearliterature.like.LikeRepository;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserDto;
+import party.of.newyearliterature.user.UserRepository;
 import party.of.newyearliterature.user.UserService;
 
 /**
@@ -41,11 +42,14 @@ public class WorkServiceTest {
     @MockBean 
     private LikeRepository likeRepo;
     
-    @Autowired 
+    @MockBean 
     private UserService userService;
 
+    @MockBean
+    private UserRepository userRepository;
+
     @Before public void setup(){
-        service = new WorkServiceImpl(workRepo, userService, likeRepo);
+        service = new WorkServiceImpl(workRepo, userService, likeRepo, userRepository);
     }
 
     @Test public void WorkAndUser_Submit_Return_WorkAndUser(){
@@ -128,37 +132,6 @@ public class WorkServiceTest {
         
         //when
         service.submit(dto);
-    }
-
-    @Test(expected = BadRequestException.class)
-    public void PasswordIsNull_WorkAndUser_Submit_Return_BadRequestException(){
-        // Given
-        User user = new User();
-        user.setId(1L);
-        user.setEmail("email");
-        user.setPassword(null);
-
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setEmail(user.getEmail());
-
-        Work work = new Work();
-        work.setId(1L);
-        work.setArticle("article");
-        work.setAuthor("author");
-        work.setCreatedAt(LocalDateTime.ofEpochSecond(System.currentTimeMillis(), 0, ZoneOffset.UTC));
-        work.setUser(user);
-
-        WorkCreateDto dto = new WorkCreateDto();
-        dto.setArticle(work.getArticle());
-        dto.setAuthor(work.getAuthor());
-        dto.setUserDto(userDto);     
-
-        when(workRepo.save(any(Work.class))).thenReturn(work);
-
-        // When
-       service.submit(dto);
-
     }
 
     @Test
@@ -250,6 +223,31 @@ public class WorkServiceTest {
         assertEquals(work3.getId(), workDtos.get(0).getId());
         assertEquals(work2.getId(), workDtos.get(1).getId());
 
+    }
+
+    @Test
+    public void Given_WorkCreateDto_When_SubmitLogged_Then_WorkDto(){
+        // Given
+        WorkCreateLoggedDto createDto = new WorkCreateLoggedDto();
+        createDto.setArticle("article");
+        createDto.setAuthor("author");
+        createDto.setUserEmail("user@of.com");
+
+        User user = new User();
+        user.setEmail(createDto.getUserEmail());
+        when(userRepository.findByEmail(any(String.class))).thenReturn(Optional.of(user));
+        Work work = new Work();
+        work.setArticle(createDto.getArticle());
+        work.setAuthor(createDto.getAuthor());
+        work.setUser(user);
+        when(workRepo.save(any(Work.class))).thenReturn(work);
+
+        // When
+        WorkDto workDto = service.submitLogged(createDto);
+        // Then
+        assertEquals(createDto.getArticle(), workDto.getArticle());
+        assertEquals(createDto.getAuthor(), workDto.getAuthor());
+        assertEquals(createDto.getUserEmail(), workDto.getUserDto().getEmail());
     }
 
 }

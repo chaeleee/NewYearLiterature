@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import party.of.newyearliterature.exception.ForbiddenException;
 import party.of.newyearliterature.work.WorkCreateDto;
+import party.of.newyearliterature.work.WorkCreateLoggedDto;
 import party.of.newyearliterature.work.WorkDto;
 import party.of.newyearliterature.work.WorkService;
 
@@ -31,6 +33,13 @@ public class WorkController {
     @PostMapping("/api/works")
     public WorkDto submit(@RequestBody WorkCreateDto workCreateDto){
         return workService.submit(workCreateDto);
+    }
+
+    @PostMapping("/api/works/logged")
+    public WorkDto submitLogged(@RequestBody WorkCreateLoggedDto createDto, Principal principal){
+        if(Objects.isNull(principal)) throw new ForbiddenException("로그인 정보가 없습니다.");
+        createDto.setUserEmail(principal.getName());
+        return workService.submitLogged(createDto);
     }
 
     @GetMapping("/api/works")
