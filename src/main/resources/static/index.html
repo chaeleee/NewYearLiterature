@@ -306,8 +306,8 @@
                                     <p class="post" v-html="work.article"></p>
                                     <p class="author">- {{ work.author }} -</p>
                                     <div class="like-box">
-                                        <i v-show="work.isLiked" class="fa fa-star"></i>
-                                        <i v-show="!work.isLiked" class="fa fa-star-o"></i>
+                                        <i v-show="work.isLiked" class="fa fa-star" v-on:click="dislike" v-bind:work-id="work.id"></i>
+                                        <i v-show="!work.isLiked" class="fa fa-star-o" v-on:click="like" v-bind:work-id="work.id"></i>
                                         <span class="numOfLikes">{{ work.numOfLikes }}</span>
                                     </div>
                                 </div>

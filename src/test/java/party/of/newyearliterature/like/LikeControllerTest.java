@@ -1,5 +1,12 @@
 package party.of.newyearliterature.like;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import party.of.newyearliterature.controller.LikeController;
 import party.of.newyearliterature.security.MyUserDetailsService;
@@ -34,6 +35,7 @@ public class LikeControllerTest {
     @MockBean
     private LikeService likeService;
 
+    // SecuriryContext 생성을 위해
     @MockBean
     private MyUserDetailsService myUserDetailsService;
 
@@ -65,9 +67,16 @@ public class LikeControllerTest {
         likeDto.setId(likeId);
         when(likeService.delete(likeId)).thenReturn(likeDto);
         // when
-        mvc.perform(MockMvcRequestBuilders.delete("/api/like/"+likeId))
+        mvc.perform(MockMvcRequestBuilders.delete("/api/like").param("workId", "1"))
         // then
             .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void Given_NotLogged_When_DeleteLike_Then_ForbiddenException() throws Exception {
+        // when
+        mvc.perform(MockMvcRequestBuilders.delete("/api/like").param("workId", "1"))
+        .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
 

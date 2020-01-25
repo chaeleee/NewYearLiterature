@@ -3,7 +3,6 @@ package party.of.newyearliterature.like;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.junit.Test;
@@ -11,14 +10,19 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import party.of.newyearliterature.security.MyUserDetailsService;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserRepository;
 import party.of.newyearliterature.work.Work;
@@ -56,7 +60,8 @@ public class LIkeIntegrationTest {
         likeCreateDto.setWorkId(work.getId());
 
         // when
-        ResponseEntity<LikeDto> responseEntity = this.restTemplate.withBasicAuth("user@of.com", "password")
+        ResponseEntity<LikeDto> responseEntity = this.restTemplate
+                .withBasicAuth("user@of.com", "password")
                 .postForEntity("http://localhost:" + port + "/api/like", likeCreateDto, LikeDto.class);
 
         // then
@@ -68,10 +73,8 @@ public class LIkeIntegrationTest {
     @Test
     public void deleteTest() throws URISyntaxException {
         // given
-        User user = new User();
-        user.setName("john");
-        user.setEmail("email");
-        user = userRepository.save(user);
+
+        User user = userRepository.findByEmail("user@of.com").get();
         Work work = new Work();
         work.setArticle("article");
         work.setAuthor("author");
@@ -80,9 +83,14 @@ public class LIkeIntegrationTest {
         like.setUser(user);
         like.setWork(work);
         like = likeRepsitory.save(like);
+
+        UriComponents uriComp = UriComponentsBuilder
+        .fromUriString("http://localhost:"+port+"/api/like")
+        .queryParam("workId", work.getId())
+        .build();
         
         RequestEntity<?> requestEntity = RequestEntity
-            .delete(new URI("http://localhost:"+port+"/api/like/"+like.getId()))
+            .delete(uriComp.toUri())
             .accept(MediaType.APPLICATION_JSON_UTF8)
             .build();
         // when 

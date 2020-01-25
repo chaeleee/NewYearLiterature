@@ -13,5 +13,7 @@ public interface LikeRepository extends CrudRepository<Like, Long>{
 
 	List<Like> findByWorkId(Long id);
 
+	Like findByWorkIdAndUserId(Long id, Long id2);
+
         
 }

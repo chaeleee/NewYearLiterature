@@ -233,7 +233,6 @@ var WorkList = {
   },
   data(){
     return {
-      host: 'http://localhost:8080',
       workListUri: '/api/works',
       works: [{id: 0, article: '', author:''}],
     }
@@ -246,7 +245,7 @@ var WorkList = {
     getWorkList(author, sortt){
       $.ajax({
         type: "GET",
-        url: this.host + this.workListUri,
+        url: this.workListUri,
         data: {
           author: author,
           sort: sortt
@@ -260,6 +259,45 @@ var WorkList = {
         console.warn(err);
       })
     },
+    like(evt){
+      const workId = evt.target.getAttribute("work-id");
+      let likeCreateDto = {
+        userEmail: 'null',
+        workId: workId
+      };
+      $.ajax({
+        type: "POST",
+        url: "/api/like",
+        data: JSON.stringify(likeCreateDto),
+        dataType: 'json',
+        contentType: 'application/json',
+      })
+      .done((data)=>{
+        let likedWork = this.works.find(work => work.id == workId);
+        likedWork.numOfLikes++;
+        likedWork.isLiked=true;
+      })
+      .fail((err)=>{
+        console.warn(err);
+      });
+    },
+    dislike(evt){
+      const workId = evt.target.getAttribute("work-id");
+
+      $.ajax({
+        type: "DELETE",
+        url: "/api/like",
+        data: {"workId":workId},
+      })
+      .done(()=>{
+        let likedWork = this.works.find(work => work.id == workId);
+        likedWork.numOfLikes--;
+        likedWork.isLiked=false;
+      })
+      .fail((err)=>{
+        console.warn(err);
+      });
+    }
   },
 }
 

@@ -73,11 +73,11 @@ public class LikeServiceRepoTest {
         user = entityManager.persist(user);
 
         LikeCreateDto likeCreateDto = new LikeCreateDto();
-        likeCreateDto.setUsername(user.getName());
+        likeCreateDto.setUserEmail(user.getEmail());
         likeCreateDto.setWorkId(work.getId());
 
-        when(userRepository.findByName(likeCreateDto.getUsername())).thenReturn(user);
         when(workRepository.findById(likeCreateDto.getWorkId())).thenReturn(Optional.of(work));
+        when(userRepository.findByEmail(likeCreateDto.getUserEmail())).thenReturn(Optional.of(user));
 
         // When
         LikeDto likeDto = likeService.save(likeCreateDto);

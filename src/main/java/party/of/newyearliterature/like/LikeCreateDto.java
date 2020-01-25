@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter @Setter
 public class LikeCreateDto {
 
-    private String username;
+    private String userEmail;
     private Long workId;
 }

@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import party.of.newyearliterature.exception.NotFoundException;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserRepository;
 import party.of.newyearliterature.work.Work;
@@ -45,7 +46,7 @@ public class LikeServiceTest {
         Given_LikeCreateDto_When_Save_Then_LikeDto(2L, "jane", 2L);
     }
 
-    public void Given_LikeCreateDto_When_Save_Then_LikeDto(long workId, String username, long likeId){
+    public void Given_LikeCreateDto_When_Save_Then_LikeDto(long workId, String userEmail, long likeId){
         // given
 
         Work work = new Work();
@@ -53,17 +54,29 @@ public class LikeServiceTest {
 
         LikeCreateDto likeCreateDto = new LikeCreateDto();
         likeCreateDto.setWorkId(workId);
-        likeCreateDto.setUsername(username);
+        likeCreateDto.setUserEmail(userEmail);
 
         Like like = new Like();
         like.setId(likeId);
 
         when(likeRepository.save(any())).thenReturn(like);
         when(workRepository.findById(any())).thenReturn(Optional.of(work));
+        User user = new User(userEmail, "name");
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
         // when
         LikeDto likeDto = likeService.save(likeCreateDto);
         // then
         assertEquals(like.getId(), likeDto.getId());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void Given_NullUser_When_Save_Then_NotFoundException(){
+        // Given
+        LikeCreateDto likeCreateDto = new LikeCreateDto();
+        likeCreateDto.setWorkId(1L);
+        likeCreateDto.setUserEmail(null);
+        // When
+        likeService.save(likeCreateDto);
     }
 
     @Test
