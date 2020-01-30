@@ -39,7 +39,7 @@ public class WorkApiTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void 새유저_작품_제출_작품과유저정보_반환() {
+    public void Givne_NotSignIn_When_Submit_Then_WorkAndUser() {
         // given
         String article = "article-123";
         String author = "author-123";
@@ -69,7 +69,29 @@ public class WorkApiTest {
     }
 
     @Test
-    public void Given_Work_When_Save_Return_Work(){
+    public void None_User_submit_BadRequest_test() {
+        // given
+        String article = "article-123";
+        String author = "author-123";
+
+        WorkDto workDto = new WorkDto();
+        workDto.setArticle(article);
+        workDto.setAuthor(author);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<WorkDto> request = new HttpEntity<WorkDto>(workDto, headers);
+
+        // when
+        ResponseEntity<String> response = restTemplate.withBasicAuth("admin@of.com", "admin")
+                .postForEntity("http://localhost:" + port + "/api/works", request, String.class);
+
+        // then
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void Given_SignIn_When_SubmitWork_Return_WorkAndUser(){
         // Given
         String article = "article-123";
         String author = "author-123";
@@ -96,28 +118,6 @@ public class WorkApiTest {
         assertEquals(article, resWorkDto.getArticle());
         assertEquals(author, resWorkDto.getAuthor());
         assertEquals(email, resUserDto.getEmail());
-    }
-
-    @Test
-    public void None_User_submit_BadRequest_test() {
-        // given
-        String article = "article-123";
-        String author = "author-123";
-
-        WorkDto workDto = new WorkDto();
-        workDto.setArticle(article);
-        workDto.setAuthor(author);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<WorkDto> request = new HttpEntity<WorkDto>(workDto, headers);
-
-        // when
-        ResponseEntity<String> response = restTemplate.withBasicAuth("admin@of.com", "admin")
-                .postForEntity("http://localhost:" + port + "/api/works", request, String.class);
-
-        // then
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test

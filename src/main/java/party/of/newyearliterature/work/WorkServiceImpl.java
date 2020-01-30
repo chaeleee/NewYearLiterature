@@ -36,13 +36,10 @@ public class WorkServiceImpl implements WorkService {
     @Transactional
     public WorkDto submit(WorkCreateDto workCreateDto) {
         validate(workCreateDto);
-        
         User user = userService.signUp(workCreateDto.getUserDto());
-
         Work work = WorkMapper.map(workCreateDto);
         work.setUser(user);
         work = repository.save(work);
-        
         return WorkMapper.map(work, true);
     }
 

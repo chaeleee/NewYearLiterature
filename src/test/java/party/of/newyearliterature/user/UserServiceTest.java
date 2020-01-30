@@ -1,7 +1,10 @@
 package party.of.newyearliterature.user;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +22,8 @@ import party.of.newyearliterature.exception.BadRequestException;
 @SpringBootTest
 public class UserServiceTest {
 
-    @Mock private UserRepository userRepository;
+    @Mock 
+    private UserRepository userRepository;
     
     private UserService userService;
 
