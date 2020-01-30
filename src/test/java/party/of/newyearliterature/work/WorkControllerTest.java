@@ -53,7 +53,7 @@ public class WorkControllerTest {
         WorkDto workDto = new WorkDto();
         workDto.setId(1L);
 
-        when(workService.submit(workCreateDto)).thenReturn(workDto);
+        when(workService.submit(any(WorkCreateDto.class))).thenReturn(workDto);
 
         // when
         mvc.perform(MockMvcRequestBuilders.post("/api/works")

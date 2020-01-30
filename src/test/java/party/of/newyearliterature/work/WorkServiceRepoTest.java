@@ -74,9 +74,16 @@ public class WorkServiceRepoTest {
     @Test
     public void Given_Work_When_submitWorkLogged_Then_Is_Work_In_DB(){
         // Given
-        String email = "user@of.com";
+        String email = "mukbang@test.com";
+        String name = "식객";
+        String password = "password123";
+
         String article = "떡볶이 먹고 싶다";
         String author = "퇴근길";
+
+        User user = new User(email, name, password);
+        user = userRepository.save(user);
+
         WorkCreateLoggedDto createDto = WorkCreateLoggedDto.builder().article(article).author(author).userEmail(email).build();
 
         // When
