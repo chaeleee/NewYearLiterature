@@ -52,7 +52,7 @@ public class WorkServiceTest {
         service = new WorkServiceImpl(workRepo, userService, likeRepo, userRepository);
     }
 
-    @Test public void WorkAndUser_Submit_Return_WorkAndUser(){
+    @Test public void Given_WorkAndUser_When_Submit_Then_Return_WorkAndUser(){
         // Given
         User user = new User();
         user.setId(1L);
@@ -90,7 +90,7 @@ public class WorkServiceTest {
     }
     
     @Test(expected = BadRequestException.class)
-    public void ArticleIsNull_UserAndWork_Submit_Return_BadReuqestException(){
+    public void Given_ArticleIsNull_When_Submit_UserAndWork_Then_Return_BadReuqestException(){
         // Given
         User user = new User();
         user.setId(1L);
@@ -124,7 +124,7 @@ public class WorkServiceTest {
 
     // 유저정보 미입력, 작품제출, 잘못된 요청 반환
     @Test(expected = BadRequestException.class)
-    public void UserIsNull_Submit_Return_BadReuqestException(){
+    public void Given_UserIsNull_When_Submit_Then_Throw_BadReuqestException(){
         WorkCreateDto dto = new WorkCreateDto();
         dto.setArticle("article");
         dto.setAuthor("author");
@@ -135,7 +135,7 @@ public class WorkServiceTest {
     }
 
     @Test
-    public void getWorksTest(){
+    public void Given_Null_When_Get_Works_Then_Return_WorkDtos(){
         // given
         Work work = new Work(1L, "article1", "author2", null, null);
         List<Work> persists = new ArrayList<>();
@@ -159,7 +159,7 @@ public class WorkServiceTest {
     }
 
     @Test
-    public void getWorksByLoginUser(){
+    public void Given_WorkId_LoggedIn_When_Get_Works_Then_Return_isLiked(){
         // given
         Work work = new Work(1L, "article1", "author2", null, null);
         List<Work> persists = new ArrayList<>();

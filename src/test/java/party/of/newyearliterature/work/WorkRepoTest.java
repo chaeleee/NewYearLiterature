@@ -51,7 +51,7 @@ public class WorkRepoTest {
     }
 
     @Test 
-    public void Test_Work_Save(){
+    public void Given_Work_When_Save_Then_Return_WorkId(){
         // Given
         Work work = new Work("article", "author", null);
         // When

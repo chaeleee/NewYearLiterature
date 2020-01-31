@@ -42,7 +42,7 @@ public class TestRestSecurity {
 
 
     @Test
-    public void Test_Login(){
+    public void Login_Test(){
         Role userRole = new Role("user");
         User user1 = new User("user@of.com", passwordEncoder.encode("password"), "user1", userRole);
         

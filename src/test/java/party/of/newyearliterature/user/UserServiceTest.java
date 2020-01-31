@@ -33,7 +33,7 @@ public class UserServiceTest {
     }
     
     @Test
-    public void BadRqeust_SignUp_Test(){
+    public void Given_NullOrBlank_When_SignUp_Then_Throw_BadRqeustException(){
         UserDto passwordNull = UserDto.builder().email("email").password(null).name("name").build();
         UserDto emailNull = UserDto.builder().email(null).password("password").name("name").build();
         UserDto nameNull = UserDto.builder().email("email").password("password").name(null).build();

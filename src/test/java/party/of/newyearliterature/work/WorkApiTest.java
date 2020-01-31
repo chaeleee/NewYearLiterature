@@ -69,7 +69,7 @@ public class WorkApiTest {
     }
 
     @Test
-    public void None_User_submit_BadRequest_test() {
+    public void Given_None_User_When_Submit_Then_Throw_BadRequest() {
         // given
         String article = "article-123";
         String author = "author-123";
