@@ -63,6 +63,10 @@ public class UserServiceImpl implements UserService{
         ){
             throw new BadRequestException("유저 입력값이 공란입니다.");
         }
+
+        if(Objects.isNull(userDto.getRole())){
+            throw new BadRequestException("유저 권한이 지정되지 않았습니다.");
+        }
     }
 
 }

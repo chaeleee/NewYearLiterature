@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import party.of.newyearliterature.exception.BadRequestException;
 import party.of.newyearliterature.like.Like;
 import party.of.newyearliterature.like.LikeRepository;
+import party.of.newyearliterature.role.RoleRepository;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserDto;
 import party.of.newyearliterature.user.UserRepository;
@@ -48,8 +49,11 @@ public class WorkServiceTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private RoleRepository roleRepository;
+
     @Before public void setup(){
-        service = new WorkServiceImpl(workRepo, userService, likeRepo, userRepository);
+        service = new WorkServiceImpl(workRepo, userService, likeRepo, userRepository, roleRepository);
     }
 
     @Test public void Given_WorkAndUser_When_Submit_Then_Return_WorkAndUser(){

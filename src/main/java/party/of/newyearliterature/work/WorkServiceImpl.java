@@ -16,7 +16,10 @@ import party.of.newyearliterature.exception.BadRequestException;
 import party.of.newyearliterature.exception.NotFoundException;
 import party.of.newyearliterature.like.Like;
 import party.of.newyearliterature.like.LikeRepository;
+import party.of.newyearliterature.role.Role;
+import party.of.newyearliterature.role.RoleRepository;
 import party.of.newyearliterature.user.User;
+import party.of.newyearliterature.user.UserDto;
 import party.of.newyearliterature.user.UserRepository;
 import party.of.newyearliterature.user.UserService;
 
@@ -31,12 +34,16 @@ public class WorkServiceImpl implements WorkService {
     private final UserService userService;
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     @Transactional
     public WorkDto submit(WorkCreateDto workCreateDto) {
         validate(workCreateDto);
-        User user = userService.signUp(workCreateDto.getUserDto());
+        UserDto userDto = workCreateDto.getUserDto();
+        Role role = roleRepository.findByName("user");
+        userDto.setRole(role);
+        User user = userService.signUp(userDto);
         Work work = WorkMapper.map(workCreateDto);
         work.setUser(user);
         work = repository.save(work);
