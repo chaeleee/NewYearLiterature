@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import party.of.newyearliterature.exception.BadRequestException;
@@ -27,9 +28,11 @@ public class UserServiceTest {
     
     private UserService userService;
 
+    private PasswordEncoder passwordEncoder;
+
     @Before
     public void setup(){
-        userService = new UserServiceImpl(userRepository);
+        userService = new UserServiceImpl(userRepository, passwordEncoder);
     }
     
     @Test

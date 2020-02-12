@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -65,6 +66,10 @@ public class User {
         this.password = password;
         this.name = name;
         this.role = role;
+    }
+
+    public void crpytPassword(PasswordEncoder encoder){
+        this.password = encoder.encode(this.password);
     }
 
 }

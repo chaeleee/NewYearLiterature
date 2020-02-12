@@ -3,6 +3,7 @@ package party.of.newyearliterature.user;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import party.of.newyearliterature.exception.NotFoundException;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDto signUpDto(UserDto userDto) {
@@ -27,6 +29,7 @@ public class UserServiceImpl implements UserService{
     public User signUp(UserDto userDto){
         validate(userDto);
         User user = UserMapper.map(userDto);
+        user.crpytPassword(bCryptPasswordEncoder);
         return userRepository.save(user);
     }
 
