@@ -143,21 +143,17 @@ var WorkSubmit = {
       })
       .done(this.successHandler)
       .fail(this.failHandler);
-      setTimeout(()=>{
-        eventBus.$emit('submitWork');
-      }, 2000);
     },
     successHandler: function(work){
       alert("소중한 작품 응모 감사합니다");
       $('#submission').modal('hide');
-      this.initUserPassword();
+      // this.user.password = "";
+      work.user.password = this.user.password;
+      eventBus.$emit('submitWork', work);
     },
     failHandler: function(jqXhr, textStatus, errorThrown){
       alert("Error: " + textStatus + " : " + errorThrown);
     },
-    initUserPassword(){
-      this.user.password = "";
-    }
   },
 }
 
@@ -184,13 +180,11 @@ var WorkSubmitLogged = {
       })
       .done(this.successHandler)
       .fail(this.failHandler);
-      setTimeout(()=>{
-        eventBus.$emit('submitWork');
-      }, 2000);
     },
     successHandler: function(work){
       alert("소중한 작품 응모 감사합니다");
       $('#logged-submission').modal('hide');
+      eventBus.$emit('submitWorkLogged');
     },
     failHandler: function(jqXhr, textStatus, errorThrown){
       alert("Error: " + textStatus + " : " + errorThrown);
@@ -275,6 +269,7 @@ var WorkList = {
   },
   created() {
     this.getWorkList();
+    eventBus.$on('submitWorkLogged', this.getWorkList);
     eventBus.$on('submitWork', this.getWorkList);
   },
   methods: {
@@ -364,6 +359,12 @@ var LoginInput = {
       this.$emit('update-login-info', data);
     })
     .fail(this.failHandler);
+
+    eventBus.$on('submitWork', (work)=>{
+      this.inputEmail = work.user.email;
+      this.inputPassword = work.user.password;
+      this.login();
+    });
   },
   methods: {
     login(){
