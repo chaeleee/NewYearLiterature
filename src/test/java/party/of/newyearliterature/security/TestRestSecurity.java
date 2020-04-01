@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import party.of.newyearliterature.role.Role;
+import party.of.newyearliterature.role.RoleBasicType;
 import party.of.newyearliterature.user.User;
 
 /**
@@ -46,7 +47,7 @@ public class TestRestSecurity {
         Role userRole = new Role("user");
         User user1 = new User("user@of.com", passwordEncoder.encode("password"), "user1", userRole);
         
-        Role adminRole = new Role("admin");
+        Role adminRole = new Role(RoleBasicType.ADMIN.getName());
         User admin1 = new User("admin@of.com", passwordEncoder.encode("admin"), "admin1", adminRole);
         when(myUserDetailsService.loadUserByUsername(user1.getEmail())).thenReturn(new MyUserPrincipal(user1));
         when(myUserDetailsService.loadUserByUsername(admin1.getEmail())).thenReturn(new MyUserPrincipal(admin1));

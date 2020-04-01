@@ -52,6 +52,7 @@ public class WorkServiceTest {
     @MockBean
     private RoleRepository roleRepository;
 
+
     @Before public void setup(){
         service = new WorkServiceImpl(workRepo, userService, likeRepo, userRepository, roleRepository);
     }

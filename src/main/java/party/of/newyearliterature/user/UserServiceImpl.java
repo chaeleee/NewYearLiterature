@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import party.of.newyearliterature.exception.BadRequestException;
 import party.of.newyearliterature.exception.NotFoundException;
+import party.of.newyearliterature.role.Role;
+import party.of.newyearliterature.role.RoleRepository;
 
 /**
  * UserServiceImpl
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
+    private final RoleRepository roleRepository;
 
     @Override
     public UserDto signUpDto(UserDto userDto) {
@@ -29,6 +32,8 @@ public class UserServiceImpl implements UserService{
     public User signUp(UserDto userDto){
         validate(userDto);
         User user = UserMapper.map(userDto);
+        Role role = roleRepository.findByName(userDto.getRole().getName());
+        user.setRole(role);
         user.crpytPassword(bCryptPasswordEncoder);
         return userRepository.save(user);
     }

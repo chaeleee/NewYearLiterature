@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import party.of.newyearliterature.like.Like;
 import party.of.newyearliterature.like.LikeRepository;
 import party.of.newyearliterature.role.Role;
+import party.of.newyearliterature.role.RoleBasicType;
 import party.of.newyearliterature.role.RoleRepository;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserRepository;
@@ -38,10 +39,10 @@ public class InitDB implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Role adminRole = new Role("admin");
+        Role adminRole = new Role(RoleBasicType.ADMIN.getName());
         adminRole = roleRepository.save(adminRole);
         
-        Role userRole = new Role("user");
+        Role userRole = new Role(RoleBasicType.USER.getName());
         userRole = roleRepository.save(userRole);
 
         User user1 = new User("user@of.com", passwordEncoder.encode("password"), "user1", userRole);

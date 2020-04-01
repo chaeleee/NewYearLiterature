@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import party.of.newyearliterature.exception.BadRequestException;
+import party.of.newyearliterature.role.RoleRepository;
 
 /**
  * UserServiceTest
@@ -30,9 +31,11 @@ public class UserServiceTest {
 
     private PasswordEncoder passwordEncoder;
 
+    private RoleRepository roleRepository;
+
     @Before
     public void setup(){
-        userService = new UserServiceImpl(userRepository, passwordEncoder);
+        userService = new UserServiceImpl(userRepository, passwordEncoder, roleRepository);
     }
     
     @Test

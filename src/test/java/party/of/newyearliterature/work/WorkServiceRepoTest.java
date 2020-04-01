@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import party.of.newyearliterature.role.Role;
+import party.of.newyearliterature.role.RoleBasicType;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserDto;
 import party.of.newyearliterature.user.UserRepository;
@@ -30,7 +32,8 @@ public class WorkServiceRepoTest {
 
     @Test public void 작업과유저등록_작업과유저ID반환(){
         // Given
-        UserDto userDto = UserDto.builder().email("email").name("name").password("password").build();
+        Role role = new Role(RoleBasicType.ADMIN.getName());
+        UserDto userDto = UserDto.builder().email("email").name("name").password("password").role(role).build();
         WorkCreateDto workCreateDto = new WorkCreateDto();
         workCreateDto.setArticle("article");
         workCreateDto.setAuthor("author");
@@ -45,12 +48,13 @@ public class WorkServiceRepoTest {
     @Test
     public void Given_UserAndWork_When_submitWork_Then_Is_WorkAndUser_In_DB(){
         // Given
+        Role role = new Role(RoleBasicType.ADMIN.getName());
         String email = "test@test.com";
         String name = "john";
         String password = "password123";
         String article = "떡볶이 먹고 싶다";
         String author = "퇴근길";
-        UserDto userDto = UserDto.builder().email(email).name(name).password(password).build();
+        UserDto userDto = UserDto.builder().email(email).name(name).password(password).role(role).build();
         WorkCreateDto workCreateDto = WorkCreateDto.builder().article(article).author(author).userDto(userDto).build();
         
         // When
@@ -61,7 +65,6 @@ public class WorkServiceRepoTest {
         assertTrue("유저가 DB에 존재해야 합니다.", userOpt.isPresent());
         User user = userOpt.get();
         assertEquals(email, user.getEmail());
-        assertEquals(password, user.getPassword());
         assertEquals(name, user.getName());
 
         Optional<Work> optWork = workRepository.findById(resDto.getId());

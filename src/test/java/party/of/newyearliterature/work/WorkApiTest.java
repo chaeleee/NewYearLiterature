@@ -59,6 +59,7 @@ public class WorkApiTest {
             .postForEntity("http://localhost:" + port + "/api/works", requestEntity, WorkDto.class);
 
         // then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         WorkDto resWorkDto = response.getBody();
         UserDto resUserDto = resWorkDto.getUserDto();
 

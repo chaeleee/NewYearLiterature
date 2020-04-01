@@ -30,10 +30,11 @@ public class UserDto {
     public UserDto(){}
 
     @Builder
-    public UserDto(String email, String password, String name){
+    public UserDto(String email, String password, String name, Role role){
         this.email = email;
         this.password = password;
         this.name = name;
+        this.role = role;
     }
 
     @Override

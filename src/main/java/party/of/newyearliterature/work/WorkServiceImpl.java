@@ -17,6 +17,7 @@ import party.of.newyearliterature.exception.NotFoundException;
 import party.of.newyearliterature.like.Like;
 import party.of.newyearliterature.like.LikeRepository;
 import party.of.newyearliterature.role.Role;
+import party.of.newyearliterature.role.RoleBasicType;
 import party.of.newyearliterature.role.RoleRepository;
 import party.of.newyearliterature.user.User;
 import party.of.newyearliterature.user.UserDto;
@@ -41,8 +42,10 @@ public class WorkServiceImpl implements WorkService {
     public WorkDto submit(WorkCreateDto workCreateDto) {
         validate(workCreateDto);
         UserDto userDto = workCreateDto.getUserDto();
-        Role role = roleRepository.findByName("user");
-        userDto.setRole(role);
+        if(Objects.isNull(userDto.getRole())){
+            Role unLoggedUser = roleRepository.findByName(RoleBasicType.USER.getName());
+            userDto.setRole(unLoggedUser);
+        }
         User user = userService.signUp(userDto);
         Work work = WorkMapper.map(workCreateDto);
         work.setUser(user);

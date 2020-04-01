@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
+import party.of.newyearliterature.role.RoleBasicType;
 
 /**
  * BasicConfiguration
@@ -33,7 +34,7 @@ public class BasicConfiguration extends WebSecurityConfigurerAdapter{
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/api/user/secure").authenticated()
-            .antMatchers("/api/admin").hasRole("admin")
+            .antMatchers("/api/admin").hasRole(RoleBasicType.ADMIN.getName())
             .anyRequest().permitAll()
             .and()
             .httpBasic()
