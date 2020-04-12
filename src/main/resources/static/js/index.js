@@ -152,7 +152,8 @@ var WorkSubmit = {
       eventBus.$emit('submitWork', work);
     },
     failHandler: function(jqXhr, textStatus, errorThrown){
-      alert("Error: " + textStatus + " : " + errorThrown);
+      console.log(jqXhr);
+      alert("Error: " + jqXhr.responseJSON.error  + " : " + jqXhr.responseJSON.message);
     },
   },
 }
@@ -390,6 +391,7 @@ var LoginInput = {
       // console.log("*** HTTP Status Code ***");
       // console.log(jqXhr.status);
       console.log("로그인 실패");
+      // console.log(textStatus);
     },
     logout(){
       $.ajax({

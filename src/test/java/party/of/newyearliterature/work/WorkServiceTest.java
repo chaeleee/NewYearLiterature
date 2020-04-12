@@ -49,12 +49,9 @@ public class WorkServiceTest {
     @MockBean
     private UserRepository userRepository;
 
-    @MockBean
-    private RoleRepository roleRepository;
-
 
     @Before public void setup(){
-        service = new WorkServiceImpl(workRepo, userService, likeRepo, userRepository, roleRepository);
+        service = new WorkServiceImpl(workRepo, userService, likeRepo, userRepository);
     }
 
     @Test public void Given_WorkAndUser_When_Submit_Then_Return_WorkAndUser(){

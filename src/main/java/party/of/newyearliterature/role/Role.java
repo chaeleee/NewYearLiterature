@@ -30,5 +30,9 @@ public class Role {
         this.name = name;
     }
 
+    public Role(RoleBasicType type){
+        this.name = type.getName();
+    }
+
     public Role(){}
 }

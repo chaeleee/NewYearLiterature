@@ -35,18 +35,12 @@ public class WorkServiceImpl implements WorkService {
     private final UserService userService;
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
     @Override
     @Transactional
     public WorkDto submit(WorkCreateDto workCreateDto) {
         validate(workCreateDto);
-        UserDto userDto = workCreateDto.getUserDto();
-        if(Objects.isNull(userDto.getRole())){
-            Role unLoggedUser = roleRepository.findByName(RoleBasicType.USER.getName());
-            userDto.setRole(unLoggedUser);
-        }
-        User user = userService.signUp(userDto);
+        User user = userService.signUp(workCreateDto.getUserDto());
         Work work = WorkMapper.map(workCreateDto);
         work.setUser(user);
         work = repository.save(work);

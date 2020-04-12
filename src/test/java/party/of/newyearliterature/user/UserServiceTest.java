@@ -10,11 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import party.of.newyearliterature.exception.BadRequestException;
+import party.of.newyearliterature.role.Role;
+import party.of.newyearliterature.role.RoleBasicType;
 import party.of.newyearliterature.role.RoleRepository;
 
 /**
@@ -24,13 +27,15 @@ import party.of.newyearliterature.role.RoleRepository;
 @SpringBootTest
 public class UserServiceTest {
 
-    @Mock 
+    @Autowired 
     private UserRepository userRepository;
     
     private UserService userService;
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
     private RoleRepository roleRepository;
 
     @Before
@@ -40,11 +45,13 @@ public class UserServiceTest {
     
     @Test
     public void Given_NullOrBlank_When_SignUp_Then_Throw_BadRqeustException(){
-        UserDto passwordNull = UserDto.builder().email("email").password(null).name("name").build();
-        UserDto emailNull = UserDto.builder().email(null).password("password").name("name").build();
-        UserDto nameNull = UserDto.builder().email("email").password("password").name(null).build();
-        UserDto allNull = UserDto.builder().email(null).password(null).name(null).build();
-        UserDto allBlank = UserDto.builder().email("").password("").name("").build();
+        Role userType = new Role(RoleBasicType.USER.getName());
+
+        UserDto passwordNull = UserDto.builder().email("email").password(null).name("name").role(userType).build();
+        UserDto emailNull = UserDto.builder().email(null).password("password").name("name").role(userType).build();
+        UserDto nameNull = UserDto.builder().email("email").password("password").name(null).role(userType).build();
+        UserDto allNull = UserDto.builder().email(null).password(null).name(null).role(userType).build();
+        UserDto allBlank = UserDto.builder().email("").password("").name("").role(userType).build();
 
         NullOrBlank_SignUp_BadRequestException(passwordNull);
         NullOrBlank_SignUp_BadRequestException(emailNull);
@@ -59,6 +66,26 @@ public class UserServiceTest {
             fail("should be returned BadRequestException");
         }catch(BadRequestException ex){
             assertTrue(ex instanceof BadRequestException); 
+        }
+    }
+
+    @Test
+    public void 유저이메일이_이미_존재할_때_가입_시_BadRequestException(){
+        // given
+        String email = "lee@gmail.com";
+        String password = "123";
+        String name = "leeyun";
+        Role userRole = roleRepository.findByName(RoleBasicType.USER.getName());
+        User persistUser = new User(email, password, name, userRole);
+        userRepository.save(persistUser);
+
+        UserDto userDto = UserDto.builder().email(email).password(password).name(name).role(userRole).build();
+        
+        try{
+            userService.signUp(userDto);
+            fail("should be returned BadRequestException");
+        }catch(BadRequestException ex){
+            assertTrue(ex instanceof BadRequestException);
         }
     }
 

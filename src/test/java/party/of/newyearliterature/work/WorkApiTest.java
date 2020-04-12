@@ -39,7 +39,8 @@ public class WorkApiTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void Givne_NotSignIn_When_Submit_Then_WorkAndUser() {
+    // public void Givne_NotSignIn_When_Submit_Then_WorkAndUser() {
+    public void Given_미가입자_When_작업물제출_Then_Work와User반환() {
         // given
         String article = "article-123";
         String author = "author-123";

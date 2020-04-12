@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import party.of.newyearliterature.exception.BadRequestException;
 import party.of.newyearliterature.exception.NotFoundException;
 import party.of.newyearliterature.role.Role;
+import party.of.newyearliterature.role.RoleBasicType;
 import party.of.newyearliterature.role.RoleRepository;
 
 /**
@@ -29,10 +30,18 @@ public class UserServiceImpl implements UserService{
         return UserMapper.map(user);
     }
 
+    @Override
     public User signUp(UserDto userDto){
         validate(userDto);
+        if(Objects.isNull(userDto.getRole())){
+            Role unLoggedUser = roleRepository.findByName(RoleBasicType.USER.getName());
+            userDto.setRole(unLoggedUser);
+        }
         User user = UserMapper.map(userDto);
         Role role = roleRepository.findByName(userDto.getRole().getName());
+        if(Objects.isNull(userDto.getRole())){
+            throw new BadRequestException("유저 권한이 지정되지 않았습니다.");
+        }
         user.setRole(role);
         user.crpytPassword(bCryptPasswordEncoder);
         return userRepository.save(user);
@@ -72,8 +81,8 @@ public class UserServiceImpl implements UserService{
             throw new BadRequestException("유저 입력값이 공란입니다.");
         }
 
-        if(Objects.isNull(userDto.getRole())){
-            throw new BadRequestException("유저 권한이 지정되지 않았습니다.");
+        if(userRepository.findByEmail(userDto.getEmail()).isPresent()){
+            throw new BadRequestException("이미 가입된 이메일입니다.");
         }
     }
 
