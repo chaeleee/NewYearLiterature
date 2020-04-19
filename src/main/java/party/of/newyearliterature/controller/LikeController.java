@@ -15,6 +15,7 @@ import party.of.newyearliterature.exception.ForbiddenException;
 import party.of.newyearliterature.like.LikeCreateDto;
 import party.of.newyearliterature.like.LikeDto;
 import party.of.newyearliterature.like.LikeService;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * LikeController
@@ -26,14 +27,14 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping("/api/like")
-    public LikeDto save(@RequestBody LikeCreateDto likeCreateDto, Authentication auth){
+    public LikeDto save(@RequestBody LikeCreateDto likeCreateDto, @ApiIgnore Authentication auth){
         if(Objects.isNull(auth)) throw new ForbiddenException("추천 권한이 없습니다. 로그인 상태를 확인해주세요.");
         likeCreateDto.setUserEmail(auth.getName());
         return likeService.save(likeCreateDto);
     }
 
     @DeleteMapping("/api/like")
-    public void delete(@RequestParam Long workId, Principal principal){
+    public void delete(@RequestParam Long workId, @ApiIgnore Principal principal){
         if(Objects.isNull(principal)) throw new ForbiddenException("권한이 없습니다. 로그인 상태를 확인해주세요.");
         likeService.deleteByWorkId(workId, principal.getName());
     }

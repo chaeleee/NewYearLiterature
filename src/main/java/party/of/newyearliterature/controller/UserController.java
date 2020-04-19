@@ -16,6 +16,7 @@ import party.of.newyearliterature.exception.BadRequestException;
 import party.of.newyearliterature.exception.NotFoundException;
 import party.of.newyearliterature.user.UserDto;
 import party.of.newyearliterature.user.UserService;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * UserController
@@ -27,7 +28,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/api/user/me")
-    public UserDto getLoggedUser(Principal principal){
+    public UserDto getLoggedUser(@ApiIgnore Principal principal){
         if(Objects.isNull(principal)) throw new NotFoundException("로그인 정보가 없습니다");
         String email = principal.getName();
         UserDto userDto = new UserDto();
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/api/user/logout")
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication auth){
+    public void logout(@ApiIgnore HttpServletRequest request, @ApiIgnore HttpServletResponse response, @ApiIgnore Authentication auth){
         if(Objects.isNull(auth)) throw new BadRequestException("로그인 정보가 없습니다");
         new SecurityContextLogoutHandler().logout(request, response, auth);
     }
